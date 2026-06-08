@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>智创未来 · Smart Innovation Future</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Display:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'g-blue': '#1A73E8',
+            'g-blue-dark': '#1557B0',
+            'g-blue-light': '#E8F0FE',
+            'g-red': '#EA4335',
+            'g-yellow': '#FBBC04',
+            'g-green': '#34A853',
+            'g-surface': '#F8F9FA',
+            'g-surface2': '#F1F3F4',
+            'g-border': '#DADCE0',
+            'g-text': '#202124',
+            'g-text2': '#5F6368',
+            'g-text3': '#80868B',
+          },
+          fontFamily: {
+            'google': ['"Google Sans"', '"Noto Sans SC"', 'sans-serif'],
+            'google-display': ['"Google Sans Display"', '"Noto Sans SC"', 'sans-serif'],
+          },
+          boxShadow: {
+            'g1': '0 1px 2px 0 rgba(60,64,67,.3),0 1px 3px 1px rgba(60,64,67,.15)',
+            'g2': '0 1px 3px 0 rgba(60,64,67,.3),0 4px 8px 3px rgba(60,64,67,.15)',
+            'g3': '0 2px 6px 2px rgba(60,64,67,.15),0 1px 2px 0 rgba(60,64,67,.3)',
+            'g4': '0 4px 8px 3px rgba(60,64,67,.15),0 1px 3px 0 rgba(60,64,67,.3)',
+          },
+          borderRadius: {
+            'g': '8px',
+            'g-lg': '16px',
+            'g-xl': '24px',
+            'g-pill': '50px',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Google Sans', 'Noto Sans SC', sans-serif;
+      color: #202124;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== NAVBAR ===== */
+    .g-navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #DADCE0;
+      height: 64px;
+      display: flex; align-items: center;
+      padding: 0 24px;
+      gap: 8px;
+    }
+    .g-navbar-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 18px; font-weight: 700; color: #202124;
+      text-decoration: none; flex-shrink: 0;
+    }
+    .g-logo-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .g-nav-links { display: flex; align-items: center; gap: 2px; margin-left: 16px; }
+    .g-nav-link {
+      padding: 8px 12px; border-radius: 50px; font-size: 14px; font-weight: 500;
+      color: #5F6368; text-decoration: none; transition: all .2s;
+      white-space: nowrap;
+    }
+    .g-nav-link:hover { background: #F1F3F4; color: #202124; }
+    .g-nav-link.active { color: #1A73E8; background: #E8F0FE; }
+    .g-nav-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .g-btn-text {
+      padding: 8px 16px; border-radius: 50px; font-size: 14px; font-weight: 500;
+      color: #1A73E8; background: transparent; border: none; cursor: pointer;
+      transition: background .2s; text-decoration: none;
+    }
+    .g-btn-text:hover { background: #E8F0FE; }
+    .g-btn-filled {
+      padding: 8px 20px; border-radius: 50px; font-size: 14px; font-weight: 500;
+      color: #fff; background: #1A73E8; border: none; cursor: pointer;
+      transition: all .2s; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    }
+    .g-btn-filled:hover { background: #1557B0; box-shadow: 0 2px 6px rgba(26,115,232,.4); }
+    .g-btn-outlined {
+      padding: 8px 20px; border-radius: 50px; font-size: 14px; font-weight: 500;
+      color: #1A73E8; background: #fff; border: 1px solid #DADCE0; cursor: pointer;
+      transition: all .2s; text-decoration: none;
+    }
+    .g-btn-outlined:hover { background: #E8F0FE; border-color: #1A73E8; }
+
+    /* ===== HERO ===== */
+    .g-hero {
+      padding: 120px 0 80px;
+      background: linear-gradient(180deg, #fff 0%, #F8F9FA 100%);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .g-hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,115,232,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .g-hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #E8F0FE; border-radius: 50px; padding: 6px 16px;
+      font-size: 13px; font-weight: 500; color: #1A73E8; margin-bottom: 24px;
+    }
+    .g-hero-title {
+      font-family: 'Google Sans Display', 'Noto Sans SC', sans-serif;
+      font-size: clamp(36px, 5vw, 64px); font-weight: 700;
+      line-height: 1.15; letter-spacing: -0.5px;
+      color: #202124; margin-bottom: 16px;
+    }
+    .g-hero-title .highlight-blue { color: #1A73E8; }
+    .g-hero-title .highlight-red { color: #EA4335; }
+    .g-hero-title .highlight-green { color: #34A853; }
+    .g-hero-title .highlight-yellow { color: #FBBC04; }
+    .g-hero-subtitle {
+      font-size: 18px; color: #5F6368; max-width: 640px; margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+    .g-hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .g-hero-btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 50px; font-size: 16px; font-weight: 500;
+      color: #fff; background: #1A73E8; text-decoration: none;
+      box-shadow: 0 2px 6px rgba(26,115,232,.35); transition: all .25s;
+    }
+    .g-hero-btn-primary:hover { background: #1557B0; box-shadow: 0 4px 12px rgba(26,115,232,.45); transform: translateY(-1px); }
+    .g-hero-btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px; border-radius: 50px; font-size: 16px; font-weight: 500;
+      color: #1A73E8; background: #fff; border: 1px solid #DADCE0; text-decoration: none;
+      transition: all .25s;
+    }
+    .g-hero-btn-secondary:hover { background: #E8F0FE; border-color: #1A73E8; transform: translateY(-1px); }
+    .g-hero-stats {
+      display: flex; justify-content: center; gap: 48px; margin-top: 64px;
+      padding-top: 40px; border-top: 1px solid #DADCE0; flex-wrap: wrap;
+    }
+    .g-stat-item { text-align: center; }
+    .g-stat-num { font-size: 36px; font-weight: 700; color: #202124; line-height: 1; }
+    .g-stat-label { font-size: 13px; color: #5F6368; margin-top: 4px; }
+
+    /* ===== SECTION ===== */
+    .g-section { padding: 80px 0; }
+    .g-section-alt { background: #F8F9FA; }
+    .g-section-title {
+      font-family: 'Google Sans Display', 'Noto Sans SC', sans-serif;
+      font-size: clamp(24px, 3vw, 40px); font-weight: 700;
+      color: #202124; text-align: center; margin-bottom: 12px;
+    }
+    .g-section-subtitle {
+      font-size: 16px; color: #5F6368; text-align: center;
+      max-width: 600px; margin: 0 auto 48px; line-height: 1.6;
+    }
+    .g-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== CARDS ===== */
+    .g-card {
+      background: #fff; border-radius: 16px;
+      border: 1px solid #DADCE0;
+      transition: box-shadow .25s, transform .25s;
+      overflow: hidden;
+    }
+    .g-card:hover { box-shadow: 0 4px 8px 3px rgba(60,64,67,.15),0 1px 3px 0 rgba(60,64,67,.3); transform: translateY(-2px); }
+    .g-card-elevated {
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,.3),0 1px 3px 1px rgba(60,64,67,.15);
+      transition: box-shadow .25s, transform .25s;
+    }
+    .g-card-elevated:hover { box-shadow: 0 4px 8px 3px rgba(60,64,67,.15),0 1px 3px 0 rgba(60,64,67,.3); transform: translateY(-2px); }
+
+    /* ===== CHIPS ===== */
+    .g-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 500;
+      border: 1px solid #DADCE0; color: #5F6368; background: #fff;
+    }
+    .g-chip-blue { background: #E8F0FE; border-color: #C5D8FB; color: #1A73E8; }
+    .g-chip-green { background: #E6F4EA; border-color: #CEEAD6; color: #137333; }
+    .g-chip-red { background: #FCE8E6; border-color: #F5C6C2; color: #C5221F; }
+    .g-chip-yellow { background: #FEF7E0; border-color: #FDE293; color: #B06000; }
+    .g-chip-purple { background: #F3E8FD; border-color: #E2C4FB; color: #7B1FA2; }
+
+    /* ===== GOOGLE COLOR DOTS ===== */
+    .g-dots { display: flex; gap: 6px; align-items: center; }
+    .g-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* ===== STUDENT TIER CARDS ===== */
+    .tier-card {
+      background: #fff; border-radius: 16px; border: 1px solid #DADCE0;
+      padding: 28px; transition: all .25s; position: relative; overflow: hidden;
+    }
+    .tier-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .tier-card.undergrad::before { background: #1A73E8; }
+    .tier-card.master::before { background: #34A853; }
+    .tier-card.phd::before { background: #EA4335; }
+    .tier-card:hover { box-shadow: 0 4px 8px 3px rgba(60,64,67,.15),0 1px 3px 0 rgba(60,64,67,.3); transform: translateY(-3px); }
+
+    /* ===== FEATURE CARDS ===== */
+    .feature-card {
+      background: #fff; border-radius: 16px; border: 1px solid #DADCE0;
+      padding: 32px; transition: all .25s;
+    }
+    .feature-card:hover { box-shadow: 0 4px 8px 3px rgba(60,64,67,.15),0 1px 3px 0 rgba(60,64,67,.3); transform: translateY(-3px); }
+    .feature-icon {
+      width: 56px; height: 56px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin-bottom: 20px;
+    }
+
+    /* ===== ENTERPRISE CARDS ===== */
+    .enterprise-card {
+      background: #fff; border-radius: 16px; border: 1px solid #DADCE0;
+      padding: 24px; transition: all .25s;
+    }
+    .enterprise-card:hover { box-shadow: 0 4px 8px 3px rgba(60,64,67,.15),0 1px 3px 0 rgba(60,64,67,.3); transform: translateY(-2px); }
+    .enterprise-avatar {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+
+    /* ===== DEMAND CARDS ===== */
+    .demand-card {
+      background: #fff; border-radius: 16px; border: 1px solid #DADCE0;
+      padding: 24px; transition: all .25s; position: relative;
+    }
+    .demand-card:hover { box-shadow: 0 4px 8px 3px rgba(60,64,67,.15),0 1px 3px 0 rgba(60,64,67,.3); transform: translateY(-2px); }
+    .demand-type-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 500;
+    }
+
+    /* ===== TALENT CARDS ===== */
+    .talent-card {
+      background: #fff; border-radius: 16px; border: 1px solid #DADCE0;
+      padding: 24px; transition: all .25s;
+    }
+    .talent-card:hover { box-shadow: 0 4px 8px 3px rgba(60,64,67,.15),0 1px 3px 0 rgba(60,64,67,.3); transform: translateY(-2px); }
+    .talent-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+
+    /* ===== PROOF OF WORK ===== */
+    .pow-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px; padding: 32px; color: #fff; position: relative; overflow: hidden;
+    }
+    .pow-card::before {
+      content: ''; position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(255,255,255,.08);
+    }
+    .pow-card::after {
+      content: ''; position: absolute; bottom: -60px; left: -20px;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(255,255,255,.05);
+    }
+
+    /* ===== GROWTH PATH ===== */
+    .path-card {
+      background: #fff; border-radius: 16px; border: 1px solid #DADCE0;
+      padding: 24px; transition: all .25s;
+    }
+    .path-card:hover { box-shadow: 0 4px 8px 3px rgba(60,64,67,.15),0 1px 3px 0 rgba(60,64,67,.3); transform: translateY(-2px); }
+
+    /* ===== MIT SECTION ===== */
+    .mit-compare-card {
+      background: #fff; border-radius: 16px; border: 1px solid #DADCE0;
+      padding: 28px; transition: all .25s;
+    }
+    .mit-compare-card.featured { border-color: #1A73E8; box-shadow: 0 0 0 2px rgba(26,115,232,.15); }
+
+    /* ===== TRUST SECTION ===== */
+    .trust-badge {
+      display: flex; align-items: center; gap: 12px;
+      background: #fff; border-radius: 12px; border: 1px solid #DADCE0;
+      padding: 16px 20px; transition: all .2s;
+    }
+    .trust-badge:hover { box-shadow: 0 2px 6px rgba(60,64,67,.15); }
+
+    /* ===== CTA SECTION ===== */
+    .g-cta-section {
+      background: linear-gradient(135deg, #1A73E8 0%, #0D47A1 100%);
+      padding: 80px 0; text-align: center; position: relative; overflow: hidden;
+    }
+    .g-cta-section::before {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: rgba(255,255,255,.06);
+    }
+    .g-cta-section::after {
+      content: ''; position: absolute; bottom: -100px; left: -60px;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: rgba(255,255,255,.04);
+    }
+
+    /* ===== FOOTER ===== */
+    .g-footer {
+      background: #202124; color: #BDC1C6; padding: 48px 0 24px;
+    }
+    .g-footer-logo { color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .g-footer-tagline { font-size: 13px; color: #9AA0A6; margin-bottom: 32px; }
+    .g-footer-heading { color: #fff; font-size: 13px; font-weight: 500; margin-bottom: 16px; }
+    .g-footer-link { display: block; color: #9AA0A6; font-size: 13px; text-decoration: none; margin-bottom: 10px; transition: color .2s; }
+    .g-footer-link:hover { color: #fff; }
+    .g-footer-divider { border: none; border-top: 1px solid #3C4043; margin: 32px 0 24px; }
+    .g-footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .g-footer-copy { font-size: 12px; color: #9AA0A6; }
+
+    /* ===== SCROLL ANIMATION ===== */
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity .5s ease, transform .5s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== GOOGLE SEARCH BAR HERO ELEMENT ===== */
+    .g-search-bar {
+      display: flex; align-items: center; gap: 12px;
+      background: #fff; border-radius: 50px; padding: 12px 20px;
+      box-shadow: 0 1px 6px rgba(32,33,36,.28), 0 0 0 1px rgba(32,33,36,.04);
+      max-width: 560px; margin: 32px auto 0;
+    }
+    .g-search-bar:hover { box-shadow: 0 1px 6px rgba(32,33,36,.28), 0 4px 12px rgba(32,33,36,.12); }
+    .g-search-input { flex: 1; border: none; outline: none; font-size: 16px; color: #202124; background: transparent; }
+
+    /* ===== RIPPLE ===== */
+    .ripple { position: relative; overflow: hidden; }
+    .ripple::after {
+      content: ''; position: absolute; border-radius: 50%;
+      background: rgba(26,115,232,.2); transform: scale(0);
+      animation: ripple-anim .6s linear;
+      width: 100%; height: 100%; top: 0; left: 0;
+    }
+    @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .g-nav-links { display: none; }
+      .g-hero { padding: 100px 0 60px; }
+      .g-hero-stats { gap: 24px; }
+    }
+
+    /* ===== NUMBER COUNTER ===== */
+    .counter { display: inline-block; }
+
+    /* ===== GOOGLE MULTICOLOR GRADIENT TEXT ===== */
+    .g-gradient-text {
+      background: linear-gradient(90deg, #4285F4 0%, #EA4335 33%, #FBBC04 66%, #34A853 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ===== SECTION DIVIDER ===== */
+    .g-divider { border: none; border-top: 1px solid #DADCE0; }
+
+    /* ===== PRODUCT ICON COLORS ===== */
+    .icon-blue { background: #E8F0FE; color: #1A73E8; }
+    .icon-green { background: #E6F4EA; color: #137333; }
+    .icon-red { background: #FCE8E6; color: #C5221F; }
+    .icon-yellow { background: #FEF7E0; color: #B06000; }
+    .icon-purple { background: #F3E8FD; color: #7B1FA2; }
+    .icon-teal { background: #E6F7F7; color: #00796B; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="g-navbar">
+  <a href="#" class="g-navbar-logo">
+    <div class="g-dots">
+      <div class="g-dot" style="background:#4285F4"></div>
+      <div class="g-dot" style="background:#EA4335"></div>
+      <div class="g-dot" style="background:#FBBC04"></div>
+      <div class="g-dot" style="background:#34A853"></div>
+    </div>
+    智创未来
+  </a>
+  <div class="g-nav-links">
+    <a href="#student" class="g-nav-link">学生服务</a>
+    <a href="#enterprise" class="g-nav-link">企业展示</a>
+    <a href="#talent" class="g-nav-link">人才库</a>
+    <a href="#demand" class="g-nav-link">需求直达</a>
+    <a href="#internship" class="g-nav-link">实习</a>
+    <a href="#job" class="g-nav-link">就业</a>
+    <a href="#startup" class="g-nav-link">创业孵化</a>
+  </div>
+  <div class="g-nav-actions">
+    <a href="#talent" class="g-btn-text">学生入驻</a>
+    <a href="#demand" class="g-btn-filled">企业入驻</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="g-hero" id="hero">
+  <div class="g-container">
+    <div class="g-hero-eyebrow fade-up">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      海淀区工商联数智教育商会 · 官方认证平台
+    </div>
+    <h1 class="g-hero-title fade-up" style="transition-delay:.1s">
+      链接中国最聪明的<span class="g-gradient-text">脑子</span><br/>
+      与最具创新力的<span class="highlight-blue">企业</span>
+    </h1>
+    <p class="g-hero-subtitle fade-up" style="transition-delay:.2s">
+      基于 AI 数字人与真实战绩量化的清北C9产学研硬科技天才平台，打造中国本土化 MIT 产学研生态闭环
+    </p>
+    <div class="g-hero-actions fade-up" style="transition-delay:.3s">
+      <a href="#demand" class="g-hero-btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        企业发布科研外包
+      </a>
+      <a href="#talent" class="g-hero-btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        清北C9天才入驻
+      </a>
+    </div>
+
+    <!-- Google-style search bar as decorative element -->
+    <div class="g-search-bar fade-up" style="transition-delay:.4s">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9AA0A6" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="g-search-input" placeholder="搜索清北C9天才、科研外包、横向课题..." readonly />
+      <div class="g-dots">
+        <div class="g-dot" style="background:#4285F4;width:6px;height:6px"></div>
+        <div class="g-dot" style="background:#EA4335;width:6px;height:6px"></div>
+        <div class="g-dot" style="background:#FBBC04;width:6px;height:6px"></div>
+        <div class="g-dot" style="background:#34A853;width:6px;height:6px"></div>
+      </div>
+    </div>
+
+    <div class="g-hero-stats fade-up" style="transition-delay:.5s">
+      <div class="g-stat-item">
+        <div class="g-stat-num" style="color:#1A73E8"><span class="counter" data-target="30">0</span>%↓</div>
+        <div class="g-stat-label">企业研发成本</div>
+      </div>
+      <div class="g-stat-item">
+        <div class="g-stat-num" style="color:#34A853">¥1-5w</div>
+        <div class="g-stat-label">学生项目增收</div>
+      </div>
+      <div class="g-stat-item">
+        <div class="g-stat-num" style="color:#EA4335">C9+</div>
+        <div class="g-stat-label">顶尖人才池</div>
+      </div>
+      <div class="g-stat-item">
+        <div class="g-stat-num" style="color:#FBBC04"><span class="counter" data-target="500">0</span>+</div>
+        <div class="g-stat-label">年服务项目</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STUDENT SERVICE ===== -->
+<section class="g-section" id="student">
+  <div class="g-container">
+    <div class="fade-up">
+      <div style="text-align:center;margin-bottom:8px">
+        <span class="g-chip g-chip-blue">学生服务分层</span>
+      </div>
+      <h2 class="g-section-title">精准匹配企业需求</h2>
+      <p class="g-section-subtitle">本科生（基础技术服务）| 硕士研究生（专业技术研发外包）| 博士研究生（横向课题研发服务）</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- 本科生 -->
+      <div class="tier-card undergrad fade-up" style="transition-delay:.1s">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="feature-icon icon-blue" style="width:44px;height:44px;border-radius:12px;font-size:20px;margin:0">🎓</div>
+            <div>
+              <div style="font-size:16px;font-weight:700;color:#202124">本科生</div>
+              <div style="font-size:12px;color:#5F6368">基础技术服务</div>
+            </div>
+          </div>
+          <span class="g-chip g-chip-blue" style="font-size:11px">基础技术服务</span>
+        </div>
+        <p style="font-size:14px;color:#5F6368;line-height:1.6;margin-bottom:16px">
+          服务定位：程序开发、数据标注、前端/后端基础开发、小程序搭建、测试运维、技术文档撰写等标准化技术服务。
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px">
+          <span class="g-chip">Python/Java</span>
+          <span class="g-chip">React/Vue</span>
+          <span class="g-chip">数据库</span>
+          <span class="g-chip">爬虫</span>
+        </div>
+        <div style="background:#F8F9FA;border-radius:12px;padding:14px;margin-bottom:16px">
+          <div style="font-size:12px;color:#5F6368;margin-bottom:4px">💰 报价参考</div>
+          <div style="font-size:15px;font-weight:600;color:#1A73E8">项目制 5k-2w 或 200-400元/天</div>
+        </div>
+        <a href="#demand" class="g-btn-outlined" style="display:block;text-align:center;font-size:14px">查看匹配需求</a>
+      </div>
+      <!-- 硕士 -->
+      <div class="tier-card master fade-up" style="transition-delay:.2s">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="feature-icon icon-green" style="width:44px;height:44px;border-radius:12px;font-size:20px;margin:0">🔬</div>
+            <div>
+              <div style="font-size:16px;font-weight:700;color:#202124">硕士研究生</div>
+              <div style="font-size:12px;color:#5F6368">专业技术研发外包</div>
+            </div>
+          </div>
+          <span class="g-chip g-chip-green" style="font-size:11px">研发外包</span>
+        </div>
+        <p style="font-size:14px;color:#5F6368;line-height:1.6;margin-bottom:16px">
+          服务定位：算法实现、AI模型训练与微调、网络安全渗透、量化分析、全栈项目开发、专利软著撰写等。
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px">
+          <span class="g-chip">PyTorch/TensorFlow</span>
+          <span class="g-chip">NLP/CV</span>
+          <span class="g-chip">密码学</span>
+          <span class="g-chip">运筹优化</span>
+        </div>
+        <div style="background:#F8F9FA;border-radius:12px;padding:14px;margin-bottom:16px">
+          <div style="font-size:12px;color:#5F6368;margin-bottom:4px">💰 报价参考</div>
+          <div style="font-size:15px;font-weight:600;color:#34A853">项目制 2w-8w 或 500-1000元/天</div>
+        </div>
+        <a href="#demand" class="g-btn-outlined" style="display:block;text-align:center;font-size:14px;color:#34A853;border-color:#CEEAD6">查看匹配需求</a>
+      </div>
+      <!-- 博士 -->
+      <div class="tier-card phd fade-up" style="transition-delay:.3s">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="feature-icon icon-red" style="width:44px;height:44px;border-radius:12px;font-size:20px;margin:0">⚡</div>
+            <div>
+              <div style="font-size:16px;font-weight:700;color:#202124">博士研究生</div>
+              <div style="font-size:12px;color:#5F6368">横向课题研发服务</div>
+            </div>
+          </div>
+          <span class="g-chip g-chip-red" style="font-size:11px">横向课题</span>
+        </div>
+        <p style="font-size:14px;color:#5F6368;line-height:1.6;margin-bottom:16px">
+          服务定位：前沿技术攻关、横向课题联合研发、论文级算法创新、技术咨询、专利布局、成果转化指导等。
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px">
+          <span class="g-chip">大模型前沿</span>
+          <span class="g-chip">量子计算</span>
+          <span class="g-chip">生物信息学</span>
+          <span class="g-chip">复杂系统优化</span>
+        </div>
+        <div style="background:#F8F9FA;border-radius:12px;padding:14px;margin-bottom:16px">
+          <div style="font-size:12px;color:#5F6368;margin-bottom:4px">💰 报价参考</div>
+          <div style="font-size:15px;font-weight:600;color:#EA4335">横向课题经费 10w-50w+ 或成果转化分成</div>
+        </div>
+        <a href="#demand" class="g-btn-outlined" style="display:block;text-align:center;font-size:14px;color:#EA4335;border-color:#F5C6C2">查看匹配需求</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CORE PRODUCTS ===== -->
+<section class="g-section g-section-alt" id="products">
+  <div class="g-container">
+    <div class="fade-up">
+      <div style="text-align:center;margin-bottom:8px">
+        <span class="g-chip g-chip-purple">核心产品</span>
+      </div>
+      <h2 class="g-section-title">3D 多维立体天才数字名片</h2>
+      <p class="g-section-subtitle">颠覆 PDF 静态简历，将"Title 光环"与"硬核战绩"彻底产品化</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="feature-card fade-up" style="transition-delay:.1s">
+        <div class="feature-icon icon-blue">🤖</div>
+        <div style="font-size:11px;font-weight:600;color:#1A73E8;letter-spacing:.5px;margin-bottom:8px">FEATURE 01</div>
+        <h3 style="font-size:20px;font-weight:700;color:#202124;margin-bottom:12px">AI 孪生数字人</h3>
+        <p style="font-size:14px;color:#5F6368;line-height:1.7;margin-bottom:20px">
+          学生主页集成 2.5D/3D 高清数字人，克隆学生真实声音，进行高能项目复盘与自动化技术初试对答。7×24 小时在线，企业 HR 无需安排初面。
+        </p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+            <div style="width:6px;height:6px;border-radius:50%;background:#1A73E8;flex-shrink:0"></div>
+            声音克隆 · 真实语调完整还原
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+            <div style="width:6px;height:6px;border-radius:50%;background:#1A73E8;flex-shrink:0"></div>
+            7×24 小时自动化技术初试对答
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+            <div style="width:6px;height:6px;border-radius:50%;background:#1A73E8;flex-shrink:0"></div>
+            多维交互简历 · 项目复盘可视化
+          </div>
+        </div>
+      </div>
+      <div class="feature-card fade-up" style="transition-delay:.2s">
+        <div class="feature-icon icon-green">📊</div>
+        <div style="font-size:11px;font-weight:600;color:#34A853;letter-spacing:.5px;margin-bottom:8px">FEATURE 02</div>
+        <h3 style="font-size:20px;font-weight:700;color:#202124;margin-bottom:12px">3D 战绩数据场<br/><span style="font-size:14px;font-weight:500;color:#5F6368">Proof of Work</span></h3>
+        <p style="font-size:14px;color:#5F6368;line-height:1.7;margin-bottom:20px">
+          <strong style="color:#202124">能量化的绝对不画饼。</strong>直连 GitHub / Hugging Face，动态可视化代码贡献量、算法优化数据及企业降本增效实绩。
+        </p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+            <div style="width:6px;height:6px;border-radius:50%;background:#34A853;flex-shrink:0"></div>
+            直连 GitHub / Hugging Face 实时同步
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+            <div style="width:6px;height:6px;border-radius:50%;background:#34A853;flex-shrink:0"></div>
+            降本增效数据可量化、可溯源
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+            <div style="width:6px;height:6px;border-radius:50%;background:#34A853;flex-shrink:0"></div>
+            3D 可视化图谱，一眼识别天才
+          </div>
+        </div>
+      </div>
+      <div class="feature-card fade-up" style="transition-delay:.3s">
+        <div class="feature-icon icon-yellow">🏅</div>
+        <div style="font-size:11px;font-weight:600;color:#B06000;letter-spacing:.5px;margin-bottom:8px">FEATURE 03</div>
+        <h3 style="font-size:20px;font-weight:700;color:#202124;margin-bottom:12px">Title 标签资产化</h3>
+        <p style="font-size:14px;color:#5F6368;line-height:1.7;margin-bottom:20px">
+          将"清华贵系"、"ACM金奖"、"商会A级实战认证"做成流光数字勋章，支持一键溯源验证。海淀工商联 + 中关村创新中心双重权威背书。
+        </p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+            <div style="width:6px;height:6px;border-radius:50%;background:#FBBC04;flex-shrink:0"></div>
+            流光数字勋章 · 区块链溯源防伪
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+            <div style="width:6px;height:6px;border-radius:50%;background:#FBBC04;flex-shrink:0"></div>
+            海淀工商联 + 中关村创新中心背书
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+            <div style="width:6px;height:6px;border-radius:50%;background:#FBBC04;flex-shrink:0"></div>
+            高客单价数字资产 · 可交易可授权
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ENTERPRISE ===== -->
+<section class="g-section" id="enterprise">
+  <div class="g-container">
+    <div class="fade-up">
+      <div style="text-align:center;margin-bottom:8px">
+        <span class="g-chip g-chip-blue">企业展示及技术研发</span>
+      </div>
+      <h2 class="g-section-title">企业基本信息 · 年度研发投入</h2>
+      <p class="g-section-subtitle">海淀工商联数智教育商会百强会员企业，官方背书，合规可信</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="enterprise-card fade-up" style="transition-delay:.1s">
+        <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px">
+          <div class="enterprise-avatar" style="background:linear-gradient(135deg,#1A73E8,#0D47A1)">智</div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="font-size:16px;font-weight:700;color:#202124">智源清科技术有限公司</span>
+              <span class="g-chip g-chip-blue" style="font-size:11px">专精特新</span>
+            </div>
+            <div style="font-size:13px;color:#5F6368">📍 海淀 · 中关村 | AI大模型</div>
+          </div>
+        </div>
+        <div style="background:#E8F0FE;border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:12px;color:#1A73E8">📈 年研发投入：</span>
+          <span style="font-size:15px;font-weight:700;color:#1A73E8">¥860万</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+          <span class="g-chip g-chip-blue" style="font-size:11px">横向课题</span>
+          <span class="g-chip g-chip-green" style="font-size:11px">研发外包</span>
+          <span class="g-chip" style="font-size:11px">实习</span>
+        </div>
+        <p style="font-size:13px;color:#5F6368">多模态大模型推理加速 / 大模型微调外包 / NLP算法实习</p>
+      </div>
+      <div class="enterprise-card fade-up" style="transition-delay:.2s">
+        <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px">
+          <div class="enterprise-avatar" style="background:linear-gradient(135deg,#EA4335,#B71C1C)">盾</div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="font-size:16px;font-weight:700;color:#202124">数盾安全科技</span>
+              <span class="g-chip g-chip-blue" style="font-size:11px">专精特新</span>
+            </div>
+            <div style="font-size:13px;color:#5F6368">🛡️ 网络安全 · 专精特新</div>
+          </div>
+        </div>
+        <div style="background:#FCE8E6;border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:12px;color:#EA4335">📈 年研发投入：</span>
+          <span style="font-size:15px;font-weight:700;color:#EA4335">¥520万</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+          <span class="g-chip g-chip-green" style="font-size:11px">研发外包</span>
+          <span class="g-chip g-chip-blue" style="font-size:11px">横向课题</span>
+        </div>
+        <p style="font-size:13px;color:#5F6368">国密算法实现 / 零信任策略优化</p>
+      </div>
+      <div class="enterprise-card fade-up" style="transition-delay:.3s">
+        <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px">
+          <div class="enterprise-avatar" style="background:linear-gradient(135deg,#34A853,#1B5E20)">基</div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="font-size:16px;font-weight:700;color:#202124">基因未来生物科技</span>
+              <span class="g-chip g-chip-green" style="font-size:11px">清华孵化</span>
+            </div>
+            <div style="font-size:13px;color:#5F6368">🧬 生物科技 · 清华孵化</div>
+          </div>
+        </div>
+        <div style="background:#E6F4EA;border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:12px;color:#34A853">📈 年研发投入：</span>
+          <span style="font-size:15px;font-weight:700;color:#34A853">¥380万</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+          <span class="g-chip g-chip-blue" style="font-size:11px">横向课题</span>
+          <span class="g-chip" style="font-size:11px">实习</span>
+        </div>
+        <p style="font-size:13px;color:#5F6368">蛋白质结构预测 / 生物信息实习</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <a href="#" class="g-btn-outlined">查看全部企业 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DEMAND ===== -->
+<section class="g-section g-section-alt" id="demand">
+  <div class="g-container">
+    <div class="fade-up">
+      <div style="text-align:center;margin-bottom:8px">
+        <span class="g-chip g-chip-green">企业需求直达</span>
+      </div>
+      <h2 class="g-section-title">学生快速对接</h2>
+      <p class="g-section-subtitle">技术研发外包 | 实习招聘 | 横向课题 · 一键联系企业，抢占机会</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- 需求卡片 1 -->
+      <div class="demand-card fade-up" style="transition-delay:.05s">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+          <span class="demand-type-badge" style="background:#E8F0FE;color:#1A73E8">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            技术研发外包
+          </span>
+          <span class="g-chip" style="font-size:11px">2个月</span>
+        </div>
+        <h4 style="font-size:16px;font-weight:700;color:#202124;margin-bottom:8px">智源清科 · 大模型推理加速</h4>
+        <p style="font-size:13px;color:#5F6368;margin-bottom:6px">💰 薪酬：6-8万元 | 周期：2个月 | 硕士/博士承接</p>
+        <p style="font-size:13px;color:#5F6368;line-height:1.6;margin-bottom:14px">需求：基于PyTorch/CUDA的大模型推理优化，包括算子融合、量化压缩，交付可部署模块。</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+          <span class="g-chip g-chip-blue" style="font-size:11px">PyTorch</span>
+          <span class="g-chip g-chip-blue" style="font-size:11px">CUDA</span>
+          <span class="g-chip" style="font-size:11px">量化压缩</span>
+        </div>
+        <button onclick="alert('请通过平台认证后联系企业')" class="g-btn-filled" style="width:100%;font-size:13px;padding:10px">
+          快速联系企业
+        </button>
+      </div>
+      <!-- 需求卡片 2 -->
+      <div class="demand-card fade-up" style="transition-delay:.1s">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+          <span class="demand-type-badge" style="background:#E6F4EA;color:#137333">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            实习招聘
+          </span>
+          <span class="g-chip g-chip-green" style="font-size:11px">可远程</span>
+        </div>
+        <h4 style="font-size:16px;font-weight:700;color:#202124;margin-bottom:8px">智源清科 · NLP算法实习生</h4>
+        <p style="font-size:13px;color:#5F6368;margin-bottom:6px">💰 薪酬：300-500元/天 | 周期：1个月 | 本科生可投</p>
+        <p style="font-size:13px;color:#5F6368;line-height:1.6;margin-bottom:14px">要求熟悉Transformer/大模型微调，参与真实产业级项目，提供导师辅导。有转正机会。</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+          <span class="g-chip g-chip-green" style="font-size:11px">Transformer</span>
+          <span class="g-chip g-chip-green" style="font-size:11px">微调</span>
+          <span class="g-chip" style="font-size:11px">有转正</span>
+        </div>
+        <button onclick="alert('请通过平台认证后联系企业')" class="g-btn-filled" style="width:100%;font-size:13px;padding:10px;background:#34A853">
+          快速联系企业
+        </button>
+      </div>
+      <!-- 需求卡片 3 -->
+      <div class="demand-card fade-up" style="transition-delay:.15s">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+          <span class="demand-type-badge" style="background:#E8F0FE;color:#1A73E8">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            技术研发外包
+          </span>
+          <span class="g-chip" style="font-size:11px">2个月</span>
+        </div>
+        <h4 style="font-size:16px;font-weight:700;color:#202124;margin-bottom:8px">数盾安全 · 国密算法实现</h4>
+        <p style="font-size:13px;color:#5F6368;margin-bottom:6px">💰 薪酬：5-7万元 | 周期：2个月 | 硕士/博士优先</p>
+        <p style="font-size:13px;color:#5F6368;line-height:1.6;margin-bottom:14px">SM2/SM4高性能实现（Rust语言），需密码学基础，交付高安全等级代码库。</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+          <span class="g-chip g-chip-red" style="font-size:11px">Rust</span>
+          <span class="g-chip g-chip-red" style="font-size:11px">密码学</span>
+          <span class="g-chip" style="font-size:11px">SM2/SM4</span>
+        </div>
+        <button onclick="alert('请通过平台认证后联系企业')" class="g-btn-filled" style="width:100%;font-size:13px;padding:10px;background:#EA4335">
+          快速联系企业
+        </button>
+      </div>
+      <!-- 需求卡片 4 -->
+      <div class="demand-card fade-up" style="transition-delay:.2s">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+          <span class="demand-type-badge" style="background:#F3E8FD;color:#7B1FA2">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            横向课题
+          </span>
+          <span class="g-chip" style="font-size:11px">3个月</span>
+        </div>
+        <h4 style="font-size:16px;font-weight:700;color:#202124;margin-bottom:8px">基因未来 · 蛋白质结构预测优化</h4>
+        <p style="font-size:13px;color:#5F6368;margin-bottom:6px">💰 课题经费：8-12万元 | 周期：3个月 | 博士/硕士团队</p>
+        <p style="font-size:13px;color:#5F6368;line-height:1.6;margin-bottom:14px">基于AlphaFold的改进算法研究，联合发表论文，共享专利成果。</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+          <span class="g-chip g-chip-purple" style="font-size:11px">AlphaFold</span>
+          <span class="g-chip" style="font-size:11px">联合发表</span>
+        </div>
+        <button onclick="alert('请通过平台认证后联系企业')" class="g-btn-filled" style="width:100%;font-size:13px;padding:10px;background:#7B1FA2">
+          快速联系企业
+        </button>
+      </div>
+      <!-- 需求卡片 5 -->
+      <div class="demand-card fade-up" style="transition-delay:.25s">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+          <span class="demand-type-badge" style="background:#E8F0FE;color:#1A73E8">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            技术研发外包
+          </span>
+          <span class="g-chip" style="font-size:11px">1个月</span>
+        </div>
+        <h4 style="font-size:16px;font-weight:700;color:#202124;margin-bottom:8px">智云科技 · 全栈管理系统开发</h4>
+        <p style="font-size:13px;color:#5F6368;margin-bottom:6px">💰 薪酬：1.2-2万元 | 周期：1个月 | 本科生/硕士</p>
+        <p style="font-size:13px;color:#5F6368;line-height:1.6;margin-bottom:14px">企业内部管理系统前端+后端（React+Node.js），数据看板与权限管理。</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+          <span class="g-chip g-chip-blue" style="font-size:11px">React</span>
+          <span class="g-chip g-chip-blue" style="font-size:11px">Node.js</span>
+          <span class="g-chip" style="font-size:11px">全栈</span>
+        </div>
+        <button onclick="alert('请通过平台认证后联系企业')" class="g-btn-filled" style="width:100%;font-size:13px;padding:10px">
+          快速联系企业
+        </button>
+      </div>
+      <!-- 需求卡片 6 -->
+      <div class="demand-card fade-up" style="transition-delay:.3s">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+          <span class="demand-type-badge" style="background:#E8F0FE;color:#1A73E8">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            技术研发外包
+          </span>
+          <span class="g-chip" style="font-size:11px">3个月</span>
+        </div>
+        <h4 style="font-size:16px;font-weight:700;color:#202124;margin-bottom:8px">芯算科技 · EDA布线算法优化</h4>
+        <p style="font-size:13px;color:#5F6368;margin-bottom:6px">💰 薪酬：5-7万元 | 周期：3个月 | 硕士/博士优先</p>
+        <p style="font-size:13px;color:#5F6368;line-height:1.6;margin-bottom:14px">C++/Python算法优化，要求具备算法设计能力，有集成电路背景优先。</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+          <span class="g-chip" style="font-size:11px">C++</span>
+          <span class="g-chip" style="font-size:11px">EDA</span>
+          <span class="g-chip" style="font-size:11px">算法优化</span>
+        </div>
+        <button onclick="alert('请通过平台认证后联系企业')" class="g-btn-filled" style="width:100%;font-size:13px;padding:10px">
+          快速联系企业
+        </button>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:13px;color:#9AA0A6;margin-top:24px">
+      ℹ️ 点击"快速联系企业"即可查看邮箱/电话，或通过平台在线沟通。学生认证后可直接投递简历/方案。
+    </p>
+  </div>
+</section>
+
+<!-- ===== TALENT ===== -->
+<section class="g-section" id="talent">
+  <div class="g-container">
+    <div class="fade-up">
+      <div style="text-align:center;margin-bottom:8px">
+        <span class="g-chip g-chip-blue">C9顶尖人才库</span>
+      </div>
+      <h2 class="g-section-title">分层展示</h2>
+      <p class="g-section-subtitle">本科生（基础技术）| 硕士（研发外包）| 博士（横向课题）</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="talent-card fade-up" style="transition-delay:.1s">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+          <div class="talent-avatar" style="background:linear-gradient(135deg,#1A73E8,#0D47A1)">王</div>
+          <div>
+            <div style="font-size:16px;font-weight:700;color:#202124">王浩然</div>
+            <div style="font-size:13px;color:#5F6368">清华大学 · 软件学院 本科大四</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+          <span class="g-chip g-chip-blue" style="font-size:11px">本科生</span>
+          <span class="g-chip" style="font-size:11px">基础技术服务</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+          <span class="g-chip" style="font-size:11px">React/Vue</span>
+          <span class="g-chip" style="font-size:11px">Node.js</span>
+          <span class="g-chip" style="font-size:11px">Python</span>
+        </div>
+        <p style="font-size:13px;color:#5F6368;margin-bottom:16px">独立完成3个商业项目，全栈开发经验丰富。</p>
+        <button onclick="alert('请通过平台认证后联系学生')" class="g-btn-outlined" style="width:100%;font-size:13px;padding:10px">联系学生</button>
+      </div>
+      <div class="talent-card fade-up" style="transition-delay:.2s">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+          <div class="talent-avatar" style="background:linear-gradient(135deg,#34A853,#1B5E20)">张</div>
+          <div>
+            <div style="font-size:16px;font-weight:700;color:#202124">张明远</div>
+            <div style="font-size:13px;color:#5F6368">清华大学 · 计算机系 硕士二年级</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+          <span class="g-chip g-chip-green" style="font-size:11px">硕士研究生</span>
+          <span class="g-chip" style="font-size:11px">研发外包</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+          <span class="g-chip" style="font-size:11px">PyTorch</span>
+          <span class="g-chip" style="font-size:11px">Transformer</span>
+          <span class="g-chip" style="font-size:11px">CUDA</span>
+        </div>
+        <p style="font-size:13px;color:#5F6368;margin-bottom:16px">ACM金牌，顶会论文2篇，大模型推理加速经验。</p>
+        <button onclick="alert('请通过平台认证后联系学生')" class="g-btn-outlined" style="width:100%;font-size:13px;padding:10px;color:#34A853;border-color:#CEEAD6">联系学生</button>
+      </div>
+      <div class="talent-card fade-up" style="transition-delay:.3s">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+          <div class="talent-avatar" style="background:linear-gradient(135deg,#EA4335,#B71C1C)">李</div>
+          <div>
+            <div style="font-size:16px;font-weight:700;color:#202124">李思琪</div>
+            <div style="font-size:13px;color:#5F6368">北京大学 · 数学科学学院 博士一年级</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+          <span class="g-chip g-chip-red" style="font-size:11px">博士研究生</span>
+          <span class="g-chip" style="font-size:11px">横向课题</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+          <span class="g-chip" style="font-size:11px">运筹优化</span>
+          <span class="g-chip" style="font-size:11px">CPLEX</span>
+          <span class="g-chip" style="font-size:11px">机器学习</span>
+        </div>
+        <p style="font-size:13px;color:#5F6368;margin-bottom:16px">SCI一区论文，多项国家级课题，复杂系统优化专家。</p>
+        <button onclick="alert('请通过平台认证后联系学生')" class="g-btn-outlined" style="width:100%;font-size:13px;padding:10px;color:#EA4335;border-color:#F5C6C2">联系学生</button>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <a href="#" class="g-btn-outlined">查看更多学生（100+ C9精英）→</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROOF OF WORK ===== -->
+<section class="g-section g-section-alt" id="showcase">
+  <div class="g-container">
+    <div class="fade-up">
+      <div style="text-align:center;margin-bottom:8px">
+        <span class="g-chip g-chip-purple">Proof of Work · 天才战绩案例</span>
+      </div>
+      <h2 class="g-section-title">这就是我们说的 <span style="color:#1A73E8">硬核战绩</span></h2>
+      <p class="g-section-subtitle">不是简历上的文字游戏，而是可访问、可验证、有真实用户的工程落地能力。以下是平台首批入驻天才的真实作品展示。</p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+      <!-- THU-PKU Date 卡片 -->
+      <div class="fade-up" style="transition-delay:.1s">
+        <div style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:20px;padding:32px;color:#fff;position:relative;overflow:hidden">
+          <div style="position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.08)"></div>
+          <div style="position:absolute;bottom:-50px;left:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.05)"></div>
+          <div style="position:relative;z-index:1">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:44px;height:44px;background:rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px">💌</div>
+                <span style="font-size:18px;font-weight:700">THU-PKU Date</span>
+              </div>
+              <span style="background:rgba(52,168,83,.9);color:#fff;padding:4px 12px;border-radius:50px;font-size:12px;font-weight:600">● 1,638+ 真实用户</span>
+            </div>
+            <div style="text-align:center;padding:20px 0;border-top:1px solid rgba(255,255,255,.2);border-bottom:1px solid rgba(255,255,255,.2);margin-bottom:20px">
+              <div style="font-size:13px;opacity:.7;margin-bottom:6px">— THU ∿ PKU —</div>
+              <div style="font-size:15px;line-height:1.8;opacity:.9">越过未名落日 荷塘清影<br/>寻找算法定义之外的心动</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+              <div style="width:40px;height:40px;background:linear-gradient(135deg,#4285F4,#1A73E8);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0">姚</div>
+              <div>
+                <div style="font-size:14px;font-weight:600">清华大学 · 姚班大二</div>
+                <div style="font-size:12px;opacity:.7">计算机科学实验班（姚班）在读</div>
+              </div>
+              <a href="https://datethupku.com" target="_blank" style="margin-left:auto;background:rgba(255,255,255,.2);color:#fff;padding:8px 16px;border-radius:50px;font-size:13px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.3);transition:all .2s;white-space:nowrap">访问作品 →</a>
+            </div>
+            <p style="font-size:13px;opacity:.85;line-height:1.7;margin-bottom:16px">用魔法火柴，点亮清北之间的奇妙缘分。基于深度三观问卷与科学算法，连接清华园与燕园之间的精英灵魂。每周四统一推送匹配结果，拒绝颜值左滑游戏。</p>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px">
+              <span style="background:rgba(255,255,255,.15);color:#fff;padding:4px 10px;border-radius:50px;font-size:11px;border:1px solid rgba(255,255,255,.2)">校园邮箱实名认证</span>
+              <span style="background:rgba(255,255,255,.15);color:#fff;padding:4px 10px;border-radius:50px;font-size:11px;border:1px solid rgba(255,255,255,.2)">算法匹配引擎</span>
+              <span style="background:rgba(255,255,255,.15);color:#fff;padding:4px 10px;border-radius:50px;font-size:11px;border:1px solid rgba(255,255,255,.2)">Next.js</span>
+              <span style="background:rgba(255,255,255,.15);color:#fff;padding:4px 10px;border-radius:50px;font-size:11px;border:1px solid rgba(255,255,255,.2)">全栈独立开发</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+              <div style="text-align:center;background:rgba(255,255,255,.1);border-radius:12px;padding:12px">
+                <div style="font-size:22px;font-weight:700">1638+</div>
+                <div style="font-size:11px;opacity:.7;margin-top:2px">真实注册用户</div>
+              </div>
+              <div style="text-align:center;background:rgba(255,255,255,.1);border-radius:12px;padding:12px">
+                <div style="font-size:22px;font-weight:700">2所</div>
+                <div style="font-size:11px;opacity:.7;margin-top:2px">顶尖高校覆盖</div>
+              </div>
+              <div style="text-align:center;background:rgba(255,255,255,.1);border-radius:12px;padding:12px">
+                <div style="font-size:22px;font-weight:700">1人</div>
+                <div style="font-size:11px;opacity:.7;margin-top:2px">独立完成上线</div>
+              </div>
+            </div>
+            <!-- 平台点评 -->
+            <div style="margin-top:20px;background:rgba(255,255,255,.12);border-radius:12px;padding:16px;border-left:3px solid #FBBC04">
+              <div style="font-size:12px;color:#FBBC04;font-weight:600;margin-bottom:6px">智创未来 · 平台点评</div>
+              <p style="font-size:13px;opacity:.9;line-height:1.6">这就是我们定义的"硬核战绩"——姚班大二，独立完成从产品设计、算法开发到全栈上线的完整闭环，1600+ 真实用户验证商业可行性。这份战绩，任何简历都写不出来。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 右侧说明 -->
+      <div class="fade-up" style="transition-delay:.2s;display:flex;flex-direction:column;gap:16px">
+        <div class="g-card" style="padding:24px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <div class="feature-icon icon-blue" style="width:40px;height:40px;border-radius:12px;font-size:18px;margin:0">🔍</div>
+            <h4 style="font-size:16px;font-weight:700;color:#202124">什么是 Proof of Work？</h4>
+          </div>
+          <p style="font-size:14px;color:#5F6368;line-height:1.7;margin-bottom:14px">
+            传统简历是"文字游戏"，而 Proof of Work 是<strong style="color:#202124">可访问、可验证、有真实用户的工程落地证明</strong>。智创未来平台将每位学生的真实作品、代码贡献、用户数据全部上链存证，形成不可篡改的天才档案。
+          </p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              直连 GitHub / Hugging Face 实时同步代码贡献
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              用户规模、营收数据可量化、可溯源展示
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5F6368">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              3D 可视化战绩图谱，企业一眼识别天才
+            </div>
+          </div>
+        </div>
+        <div class="g-card" style="padding:24px;border:2px dashed #DADCE0;background:#FAFAFA">
+          <h4 style="font-size:15px;font-weight:700;color:#202124;margin-bottom:8px">你的作品，也可以在这里</h4>
+          <p style="font-size:13px;color:#5F6368;line-height:1.6;margin-bottom:14px">
+            如果你是清北C9在校生，有独立完成或参与的真实项目——无论是开源工具、独立产品、算法论文还是企业外包交付——都可以申请入驻，让你的战绩被顶级企业和投资机构看见。
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+            <span class="g-chip g-chip-blue" style="font-size:11px">独立产品</span>
+            <span class="g-chip g-chip-green" style="font-size:11px">开源项目</span>
+            <span class="g-chip g-chip-red" style="font-size:11px">算法论文</span>
+            <span class="g-chip g-chip-yellow" style="font-size:11px">企业外包</span>
+            <span class="g-chip g-chip-purple" style="font-size:11px">横向课题</span>
+          </div>
+          <a href="#talent" class="g-btn-filled" style="display:block;text-align:center;font-size:14px;padding:12px">
+            提交你的战绩 · 申请天才入驻
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GROWTH PATH ===== -->
+<section class="g-section" id="internship">
+  <div class="g-container">
+    <div class="fade-up">
+      <div style="text-align:center;margin-bottom:8px">
+        <span class="g-chip g-chip-green">成长通道</span>
+      </div>
+      <h2 class="g-section-title">实习 · 就业 · 创业孵化</h2>
+      <p class="g-section-subtitle">从练兵场到跳板，智创未来提供完整的学生成长路径</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- 实习 -->
+      <div class="path-card fade-up" style="transition-delay:.1s">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+          <div class="feature-icon icon-blue" style="width:48px;height:48px;border-radius:14px;font-size:22px;margin:0">📋</div>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#202124">高质量实习</div>
+            <div style="font-size:13px;color:#5F6368">转正通道</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="background:#F8F9FA;border-radius:12px;padding:14px">
+            <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px">算法实习（智源清科）</div>
+            <div style="font-size:13px;color:#5F6368;margin-bottom:8px">300-500元/天，大模型方向，有转正。</div>
+            <div style="display:flex;gap:6px">
+              <span class="g-chip g-chip-blue" style="font-size:11px">大模型</span>
+              <span class="g-chip g-chip-green" style="font-size:11px">有转正</span>
+            </div>
+          </div>
+          <div style="background:#F8F9FA;border-radius:12px;padding:14px">
+            <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px">安全实习（数盾安全）</div>
+            <div style="font-size:13px;color:#5F6368;margin-bottom:8px">Rust/Go开发，住宿补贴+SP offer。</div>
+            <div style="display:flex;gap:6px">
+              <span class="g-chip g-chip-red" style="font-size:11px">Rust/Go</span>
+              <span class="g-chip g-chip-yellow" style="font-size:11px">SP offer</span>
+            </div>
+          </div>
+          <div style="background:#F8F9FA;border-radius:12px;padding:14px">
+            <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px">前端实习（智云科技）</div>
+            <div style="font-size:13px;color:#5F6368;margin-bottom:8px">200-300元/天，本科生可投。</div>
+            <div style="display:flex;gap:6px">
+              <span class="g-chip" style="font-size:11px">本科可投</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 就业 -->
+      <div class="path-card fade-up" id="job" style="transition-delay:.2s">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+          <div class="feature-icon icon-green" style="width:48px;height:48px;border-radius:14px;font-size:22px;margin:0">💼</div>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#202124">就业招聘</div>
+            <div style="font-size:13px;color:#5F6368">顶尖 offer 直达</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="background:#F8F9FA;border-radius:12px;padding:14px">
+            <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px">中关村企业联合校招</div>
+            <div style="font-size:13px;color:#5F6368;margin-bottom:8px">年薪30-60w，自推CTO免笔试。</div>
+            <div style="display:flex;gap:6px">
+              <span class="g-chip g-chip-green" style="font-size:11px">免笔试</span>
+              <span class="g-chip g-chip-blue" style="font-size:11px">30-60w</span>
+            </div>
+          </div>
+          <div style="background:#F8F9FA;border-radius:12px;padding:14px">
+            <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px">专精特新人才引进</div>
+            <div style="font-size:13px;color:#5F6368;margin-bottom:8px">解决户口+人才公寓。</div>
+            <div style="display:flex;gap:6px">
+              <span class="g-chip g-chip-yellow" style="font-size:11px">解决户口</span>
+              <span class="g-chip" style="font-size:11px">人才公寓</span>
+            </div>
+          </div>
+          <div style="background:#F8F9FA;border-radius:12px;padding:14px">
+            <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px">海淀区高端人才绿色通道</div>
+            <div style="font-size:13px;color:#5F6368;margin-bottom:8px">商会直推，优先面试，薪资面议。</div>
+            <div style="display:flex;gap:6px">
+              <span class="g-chip g-chip-blue" style="font-size:11px">商会直推</span>
+              <span class="g-chip" style="font-size:11px">优先面试</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 创业孵化 -->
+      <div class="path-card fade-up" id="startup" style="transition-delay:.3s">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+          <div class="feature-icon icon-red" style="width:48px;height:48px;border-radius:14px;font-size:22px;margin:0">🚀</div>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#202124">创业孵化</div>
+            <div style="font-size:13px;color:#5F6368">一人 AI 公司支持</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="background:#F8F9FA;border-radius:12px;padding:14px">
+            <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px">北大创业营/清华x-lab绿色通道</div>
+            <div style="font-size:13px;color:#5F6368;margin-bottom:8px">20-200w启动资金与空间。</div>
+            <div style="display:flex;gap:6px">
+              <span class="g-chip g-chip-red" style="font-size:11px">启动资金</span>
+              <span class="g-chip" style="font-size:11px">绿色通道</span>
+            </div>
+          </div>
+          <div style="background:#F8F9FA;border-radius:12px;padding:14px">
+            <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px">海淀区模型券+住所托管</div>
+            <div style="font-size:13px;color:#5F6368;margin-bottom:8px">降低创业门槛，平台协助申报。</div>
+            <div style="display:flex;gap:6px">
+              <span class="g-chip g-chip-blue" style="font-size:11px">模型券</span>
+              <span class="g-chip" style="font-size:11px">住所托管</span>
+            </div>
+          </div>
+          <div style="background:#F8F9FA;border-radius:12px;padding:14px">
+            <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px">VC直推 + 商会资源对接</div>
+            <div style="font-size:13px;color:#5F6368;margin-bottom:8px">商会百强企业战略投资，直推顶级VC。</div>
+            <div style="display:flex;gap:6px">
+              <span class="g-chip g-chip-green" style="font-size:11px">VC直推</span>
+              <span class="g-chip g-chip-yellow" style="font-size:11px">战略投资</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MIT SECTION ===== -->
+<section class="g-section g-section-alt" id="about">
+  <div class="g-container">
+    <div class="fade-up">
+      <div style="text-align:center;margin-bottom:8px">
+        <span class="g-chip g-chip-blue">对标 MIT 模式</span>
+      </div>
+      <h2 class="g-section-title">打造中国本土化数字化 MIT 产学研生态</h2>
+      <p class="g-section-subtitle">致敬《MIT创新课》，融合现代 AI 技术，构建清北C9版产学研闭环</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      <div class="mit-compare-card fade-up" style="transition-delay:.1s">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:48px;height:48px;background:#F8F9FA;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🇺🇸</div>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#202124">MIT Media Lab / Sandbox</div>
+            <div style="font-size:13px;color:#5F6368">美国模式</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#5F6368">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A73E8" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            跨学科融合，打破院系壁垒
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#5F6368">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A73E8" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            企业赞助科研，成果双向转化
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#5F6368">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A73E8" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            学生创业直通硅谷 VC 生态
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#5F6368">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A73E8" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            Proof of Work 替代传统简历
+          </div>
+        </div>
+      </div>
+      <div class="mit-compare-card featured fade-up" style="transition-delay:.2s">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:48px;height:48px;background:#E8F0FE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🇨🇳</div>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#1A73E8">智创未来 · 中国本土化</div>
+            <div style="font-size:13px;color:#5F6368">清北C9版产学研生态</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#5F6368">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            海淀工商联百强企业 × 清北C9顶尖学生
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#5F6368">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            AI 数字人 × 3D战绩数据场量化评估
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#5F6368">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            中关村创新中心 × 北大清华创业生态直通
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#5F6368">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            政策资源壁垒 × 商业化高频运作
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 发展路线图 -->
+    <div class="fade-up" style="transition-delay:.3s">
+      <h3 style="font-size:20px;font-weight:700;color:#202124;text-align:center;margin-bottom:24px">发展路线图</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div style="background:#fff;border-radius:16px;border:1px solid #DADCE0;padding:20px;text-align:center">
+          <div style="width:36px;height:36px;background:#E8F0FE;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:14px;font-weight:700;color:#1A73E8">01</div>
+          <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:6px">平台冷启动</div>
+          <div style="font-size:12px;color:#5F6368">首批50家企业 + 200名C9学生入驻</div>
+        </div>
+        <div style="background:#fff;border-radius:16px;border:1px solid #DADCE0;padding:20px;text-align:center">
+          <div style="width:36px;height:36px;background:#E6F4EA;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:14px;font-weight:700;color:#34A853">02</div>
+          <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:6px">AI 数字名片上线</div>
+          <div style="font-size:12px;color:#5F6368">数字人 + 战绩数据场 + Title资产化</div>
+        </div>
+        <div style="background:#fff;border-radius:16px;border:1px solid #DADCE0;padding:20px;text-align:center">
+          <div style="width:36px;height:36px;background:#FCE8E6;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:14px;font-weight:700;color:#EA4335">03</div>
+          <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:6px">生态闭环形成</div>
+          <div style="font-size:12px;color:#5F6368">横向课题 + 创业孵化 + VC直投</div>
+        </div>
+        <div style="background:#fff;border-radius:16px;border:1px solid #DADCE0;padding:20px;text-align:center">
+          <div style="width:36px;height:36px;background:#FEF7E0;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:14px;font-weight:700;color:#B06000">04</div>
+          <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:6px">全国复制扩张</div>
+          <div style="font-size:12px;color:#5F6368">覆盖全国985高校 + 千家企业</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRUST ===== -->
+<section class="g-section">
+  <div class="g-container">
+    <div class="fade-up">
+      <h2 class="g-section-title">三重权威壁垒背书</h2>
+      <p class="g-section-subtitle">政策、资源与物理空间的多重护城河</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="trust-badge fade-up" style="transition-delay:.1s">
+        <div style="width:44px;height:44px;background:#E8F0FE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🏛️</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#202124">海淀工商联</div>
+          <div style="font-size:12px;color:#5F6368">数智教育商会官方认证</div>
+        </div>
+      </div>
+      <div class="trust-badge fade-up" style="transition-delay:.2s">
+        <div style="width:44px;height:44px;background:#E6F4EA;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🏢</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#202124">中关村创新中心</div>
+          <div style="font-size:12px;color:#5F6368">国有企业物理空间背书</div>
+        </div>
+      </div>
+      <div class="trust-badge fade-up" style="transition-delay:.3s">
+        <div style="width:44px;height:44px;background:#FCE8E6;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">👨‍👩‍👧</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#202124">清北家长会客厅</div>
+          <div style="font-size:12px;color:#5F6368">顶尖高校精英社群</div>
+        </div>
+      </div>
+      <div class="trust-badge fade-up" style="transition-delay:.4s">
+        <div style="width:44px;height:44px;background:#FEF7E0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🎓</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#202124">C9高校覆盖</div>
+          <div style="font-size:12px;color:#5F6368">清北复交浙中等顶尖院校</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="g-cta-section">
+  <div class="g-container" style="position:relative;z-index:1">
+    <div class="fade-up">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border-radius:50px;padding:6px 16px;font-size:13px;color:rgba(255,255,255,.9);margin-bottom:24px">
+        <div class="g-dots">
+          <div class="g-dot" style="background:#4285F4;width:8px;height:8px"></div>
+          <div class="g-dot" style="background:#EA4335;width:8px;height:8px"></div>
+          <div class="g-dot" style="background:#FBBC04;width:8px;height:8px"></div>
+          <div class="g-dot" style="background:#34A853;width:8px;height:8px"></div>
+        </div>
+        智创未来 · Smart Innovation Future
+      </div>
+      <h2 style="font-family:'Google Sans Display','Noto Sans SC',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:700;color:#fff;margin-bottom:16px;line-height:1.2">
+        准备好加入了吗？
+      </h2>
+      <p style="font-size:18px;color:rgba(255,255,255,.8);max-width:520px;margin:0 auto 40px;line-height:1.6">
+        无论你是顶尖高校学生，还是寻求硬科技人才的企业，智创未来都是你的最佳选择。
+      </p>
+      <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+        <a href="#talent" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;font-size:16px;font-weight:500;color:#1A73E8;background:#fff;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.2);transition:all .25s">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          立即入驻 →
+        </a>
+        <a href="#demand" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;font-size:16px;font-weight:500;color:#fff;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);text-decoration:none;transition:all .25s">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          发布需求 →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="g-footer">
+  <div class="g-container">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+      <div class="col-span-2 md:col-span-1">
+        <div class="g-footer-logo">
+          <div class="g-dots" style="margin-bottom:8px">
+            <div class="g-dot" style="background:#4285F4"></div>
+            <div class="g-dot" style="background:#EA4335"></div>
+            <div class="g-dot" style="background:#FBBC04"></div>
+            <div class="g-dot" style="background:#34A853"></div>
+          </div>
+          智创未来
+        </div>
+        <div class="g-footer-tagline">海淀区工商联教育商会<br/>技术外包|实习|就业|创业平台</div>
+      </div>
+      <div>
+        <div class="g-footer-heading">学生服务</div>
+        <a href="#student" class="g-footer-link">本科生服务</a>
+        <a href="#student" class="g-footer-link">硕士研发外包</a>
+        <a href="#student" class="g-footer-link">博士横向课题</a>
+        <a href="#talent" class="g-footer-link">学生入驻</a>
+      </div>
+      <div>
+        <div class="g-footer-heading">企业服务</div>
+        <a href="#enterprise" class="g-footer-link">企业展示</a>
+        <a href="#demand" class="g-footer-link">发布需求</a>
+        <a href="#internship" class="g-footer-link">实习招聘</a>
+        <a href="#job" class="g-footer-link">正式招聘</a>
+      </div>
+      <div>
+        <div class="g-footer-heading">核心产品</div>
+        <a href="#products" class="g-footer-link">AI 数字名片</a>
+        <a href="#products" class="g-footer-link">战绩数据场</a>
+        <a href="#startup" class="g-footer-link">创业孵化</a>
+        <a href="#about" class="g-footer-link">关于我们</a>
+      </div>
+      <div>
+        <div class="g-footer-heading">官方背书</div>
+        <a href="#" class="g-footer-link">海淀工商联</a>
+        <a href="#" class="g-footer-link">中关村创新中心</a>
+        <a href="#" class="g-footer-link">清北家长会客厅</a>
+        <a href="#" class="g-footer-link">大学生成长专委会</a>
+      </div>
+    </div>
+    <hr class="g-footer-divider" />
+    <div class="g-footer-bottom">
+      <div class="g-footer-copy">© 2025 智创未来 Smart Innovation Future. All rights reserved.</div>
+      <div style="display:flex;gap:16px">
+        <a href="#" class="g-footer-link" style="margin:0">隐私政策</a>
+        <a href="#" class="g-footer-link" style="margin:0">服务协议</a>
+        <a href="#" class="g-footer-link" style="margin:0">联系我们</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ===== SCROLL ANIMATION =====
+const fadeEls = document.querySelectorAll('.fade-up');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+fadeEls.forEach(el => observer.observe(el));
+
+// ===== COUNTER ANIMATION =====
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const duration = 1800;
+  const step = target / (duration / 16);
+  let current = 0;
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) { current = target; clearInterval(timer); }
+    el.textContent = Math.floor(current);
+  }, 16);
+}
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.counter').forEach(animateCounter);
+      counterObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.g-hero-stats, .g-stat-item').forEach(el => counterObserver.observe(el));
+
+// ===== NAVBAR SCROLL EFFECT =====
+const navbar = document.querySelector('.g-navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 10) {
+    navbar.style.boxShadow = '0 1px 3px rgba(60,64,67,.3),0 4px 8px rgba(60,64,67,.15)';
+  } else {
+    navbar.style.boxShadow = 'none';
+  }
+});
+
+// ===== ACTIVE NAV =====
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.g-nav-link');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+  });
+});
+
+// ===== RIPPLE EFFECT ON BUTTONS =====
+document.querySelectorAll('.g-btn-filled, .g-hero-btn-primary').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    this.classList.remove('ripple');
+    void this.offsetWidth;
+    this.classList.add('ripple');
+  });
+});
+
+// ===== SEARCH BAR FOCUS =====
+const searchInput = document.querySelector('.g-search-input');
+const searchBar = document.querySelector('.g-search-bar');
+if (searchInput && searchBar) {
+  searchInput.addEventListener('focus', () => {
+    searchBar.style.boxShadow = '0 1px 6px rgba(32,33,36,.28),0 4px 12px rgba(32,33,36,.12)';
+  });
+  searchInput.addEventListener('blur', () => {
+    searchBar.style.boxShadow = '0 1px 6px rgba(32,33,36,.28),0 0 0 1px rgba(32,33,36,.04)';
+  });
+}
+</script>
+</body>
+</html>
