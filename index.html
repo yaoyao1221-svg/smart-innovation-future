@@ -1817,8 +1817,16 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-fadeEls.forEach(el => observer.observe(el));
+}, { threshold: 0.05, rootMargin: '0px 0px 0px 0px' });
+// 页面加载时将已在视口内的元素直接显示
+fadeEls.forEach(el => {
+  const rect = el.getBoundingClientRect();
+  if (rect.top < window.innerHeight) {
+    el.classList.add('visible');
+  } else {
+    observer.observe(el);
+  }
+});
 
 // ===== COUNTER ANIMATION =====
 function animateCounter(el) {
