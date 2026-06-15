@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>智创未来 · Platform Console</title>
+<style>
+:root{
+  --bg:#f5f5f7;--panel:#fff;--panel-2:#fbfbfd;--ink:#10141d;--ink-2:#303642;
+  --muted:#69707d;--muted-2:#9aa1ad;--line:#dfe3ea;--line-soft:#edf0f5;
+  --blue:#0071e3;--blue-2:#46b8ff;--green:#28a745;--gold:#b7791f;--red:#e0443e;
+  --violet:#7c3aed;--dark:#090c12;--dark-2:#111827;
+  --radius:20px;--radius-lg:28px;--sidebar:280px;--shadow:0 18px 54px rgba(10,18,32,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue","PingFang SC","Noto Sans SC",sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased;letter-spacing:0;
+  min-height:100vh;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{display:grid;grid-template-columns:var(--sidebar) 1fr;min-height:100vh}
+.sidebar{
+  position:sticky;top:0;height:100vh;background:rgba(251,251,253,.78);backdrop-filter:saturate(180%) blur(24px);
+  border-right:1px solid rgba(0,0,0,.08);padding:22px 14px;display:flex;flex-direction:column;gap:18px;z-index:5;
+}
+.brand{display:flex;align-items:center;gap:12px;padding:0 10px 8px}
+.mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:850;background:linear-gradient(135deg,#111827,#0071e3 58%,#62d8ff);box-shadow:0 14px 28px rgba(0,113,227,.22)}
+.brand b{font-size:18px}.brand span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.role-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#e9ecf2;border-radius:999px;padding:4px}
+.role-switch button{border:0;border-radius:999px;padding:9px 10px;background:transparent;color:var(--muted);font-size:13px;font-weight:700}
+.role-switch button.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.nav-section{display:grid;gap:4px}.nav-label{font-size:11px;color:var(--muted-2);font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px}
+.nav-item{display:flex;align-items:center;gap:10px;border:0;background:transparent;width:100%;text-align:left;color:var(--muted);border-radius:14px;padding:11px 12px;font-size:14px;font-weight:650}
+.nav-item:hover{background:rgba(0,0,0,.045);color:var(--ink)}
+.nav-item.active{background:#e8f2ff;color:var(--blue)}
+.nav-icon{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:rgba(0,113,227,.1);font-size:13px;flex:0 0 auto}
+.profile-mini{margin-top:auto;border-top:1px solid var(--line-soft);padding-top:14px}
+.user-card{display:flex;gap:10px;align-items:center;border-radius:16px;padding:10px;background:#fff;border:1px solid var(--line-soft)}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:780;background:linear-gradient(135deg,#0071e3,#62d8ff)}
+.user-card b{font-size:14px}.user-card span{display:block;font-size:12px;color:var(--muted);margin-top:1px}
+.main{min-width:0;padding:28px 34px 48px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
+.topbar h1{font-size:32px;line-height:1.08;letter-spacing:0}.topbar p{color:var(--muted);font-size:14px;margin-top:6px}
+.top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{border:0;border-radius:999px;padding:11px 17px;font-size:14px;font-weight:720;display:inline-flex;gap:8px;align-items:center;transition:.18s transform,.18s box-shadow,.18s background}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 10px 28px rgba(0,113,227,.22)}
+.btn-secondary{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-dark{background:#111827;color:#fff}.btn-small{padding:8px 12px;font-size:12px}
+.view{display:none}.view.active{display:block;animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero-console{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-bottom:18px}
+.glass{
+  background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.78);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow);overflow:hidden;position:relative;
+}
+.command-center{padding:28px;background:linear-gradient(135deg,#111827,#070a10);color:#fff;min-height:360px}
+.command-center::before{content:"";position:absolute;right:-110px;top:-110px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(0,113,227,.44),transparent 62%)}
+.command-content{position:relative;z-index:1}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#62d8ff;margin-bottom:12px}
+.command-center h2{font-size:42px;line-height:1.06;max-width:620px;margin-bottom:14px}.command-center p{color:#b8c3d4;font-size:16px;max-width:640px;line-height:1.6}
+.signal-board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:28px}
+.signal{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:15px}
+.signal b{display:block;font-size:26px;color:#fff}.signal span{font-size:12px;color:#a8b3c4}
+.radar{padding:22px;min-height:360px;background:#fff}
+.radar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.radar h3{font-size:18px}.radar small{color:var(--muted)}
+.radar-map{
+  height:260px;border-radius:24px;
+  background:
+    radial-gradient(ellipse at 52% 45%,rgba(0,113,227,.18),transparent 42%),
+    linear-gradient(135deg,#f8fbff,#ffffff 58%,#f5f8fd);
+  border:1px solid var(--line-soft);position:relative;overflow:hidden;
+}
+.opportunity-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.radar-map .scan-label{
+  position:absolute;left:16px;bottom:14px;display:inline-flex;align-items:center;gap:7px;
+  padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.72);
+  border:1px solid rgba(223,227,234,.72);backdrop-filter:blur(14px);
+  color:#556071;font-size:12px;font-weight:750;box-shadow:0 12px 28px rgba(10,18,32,.07);
+}
+.radar-map .scan-label::before{content:"";width:7px;height:7px;border-radius:50%;background:#46b8ff;box-shadow:0 0 18px #46b8ff}
+.radar-map .point-label{
+  position:absolute;right:16px;top:14px;padding:7px 10px;border-radius:999px;
+  color:#0f5132;background:rgba(234,248,239,.86);font-size:12px;font-weight:800;
+  border:1px solid rgba(40,167,69,.18)
+}
+.td1{left:28%;top:34%}.td2{left:65%;top:24%;background:var(--green)}.td3{left:58%;top:68%;background:var(--violet)}.td4{left:38%;top:72%;background:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.stat{background:#fff;border:1px solid var(--line-soft);border-radius:22px;padding:18px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.stat span{font-size:12px;color:var(--muted);font-weight:700}.stat b{display:block;font-size:30px;margin-top:4px}.stat small{color:var(--muted-2);font-size:12px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:#fff;border:1px solid var(--line-soft);border-radius:var(--radius);padding:20px;box-shadow:0 1px 0 rgba(0,0,0,.02);transition:.2s transform,.2s box-shadow}
+.card:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(10,18,32,.08)}
+.card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+.tag{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:720;background:#eef5ff;color:var(--blue)}
+.tag.green{background:#eaf8ef;color:var(--green)}.tag.gold{background:#fff5df;color:var(--gold)}.tag.violet{background:#f2ecff;color:var(--violet)}.tag.red{background:#fff0ef;color:var(--red)}
+.card h3{font-size:18px;line-height:1.28;margin-bottom:6px}.meta{font-size:13px;color:var(--muted);line-height:1.55}.chips{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.chip{font-size:12px;color:var(--ink-2);background:var(--bg);border:1px solid var(--line-soft);border-radius:999px;padding:5px 9px}
+.progress{height:7px;border-radius:999px;background:#eef1f6;overflow:hidden}.progress span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--blue-2))}
+.filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.filter{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;padding:8px 13px;font-size:13px;font-weight:700}.filter.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.search{margin-left:auto;border:1px solid var(--line);border-radius:999px;padding:9px 14px;min-width:240px;background:#fff;outline:none}.search:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,113,227,.12)}
+.pow-card{background:linear-gradient(145deg,#111827,#070a10);color:#fff;border-radius:28px;padding:24px;position:relative;overflow:hidden}
+.pow-card::before{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(0,113,227,.36),transparent 62%)}
+.pow-card>*{position:relative;z-index:1}.pow-card .chip{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:#dce6f3}.pow-card .meta{color:#aeb9c8}
+.timeline{display:grid;gap:12px}.milestone{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:start;padding:14px;border:1px solid var(--line-soft);border-radius:16px;background:#fff}.m-dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#eaf8ef;color:var(--green);font-weight:800}.m-dot.pending{background:#fff5df;color:var(--gold)}
+.form-grid{display:grid;gap:14px}.field label{display:block;font-size:12px;color:var(--muted);font-weight:800;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;outline:none}.field textarea{min-height:96px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,113,227,.11)}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.34);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.modal-backdrop.open{display:flex}
+.modal{width:min(620px,100%);max-height:86vh;overflow:auto;background:#fff;border-radius:30px;padding:28px;box-shadow:0 40px 110px rgba(0,0,0,.24)}.modal h2{font-size:24px;margin-bottom:8px}.modal p{color:var(--muted);font-size:14px;line-height:1.6}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(16px);background:#111827;color:#fff;border-radius:999px;padding:12px 18px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:80}.toast.show{opacity:1;transform:translateX(-50%)}
+.empty{padding:42px;text-align:center;color:var(--muted)}
+@media(max-width:1080px){.app{grid-template-columns:86px 1fr}.sidebar{padding:18px 10px}.brand b,.brand span,.nav-label,.nav-item span:not(.nav-icon),.user-card div:not(.avatar){display:none}.brand{justify-content:center}.nav-item{justify-content:center}.role-switch{grid-template-columns:1fr}.role-switch button{font-size:11px;padding:8px 4px}.main{padding:22px 20px}.hero-console,.grid-2,.grid-3,.stats{grid-template-columns:1fr 1fr}.command-center h2{font-size:34px}}
+@media(max-width:720px){.app{display:block}.sidebar{position:relative;height:auto}.nav-section{grid-template-columns:repeat(3,1fr)}.profile-mini{display:none}.main{padding:18px 14px}.hero-console,.grid-2,.grid-3,.stats{grid-template-columns:1fr}.signal-board{grid-template-columns:1fr}.search{margin-left:0;width:100%;min-width:0}.topbar{align-items:flex-start;flex-direction:column}.command-center h2{font-size:30px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="mark">智</div><div><b>智创未来</b><span>Proof of Work Console</span></div></div>
+    <div class="role-switch"><button id="studentRole" class="active" onclick="setRole('student')">学生</button><button id="enterpriseRole" onclick="setRole('enterprise')">企业</button></div>
+    <div class="nav-section" id="nav"></div>
+    <div class="profile-mini"><div class="user-card"><div class="avatar" id="avatar">王</div><div><b id="userName">王浩然</b><span id="userMeta">清华 · 软件学院</span></div></div></div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div><h1 id="pageTitle">智能首页</h1><p id="pageDesc">你的 C9 成长飞轮与机会推荐。</p></div>
+      <div class="top-actions"><button class="btn btn-secondary" onclick="openAssistant()">技术经理人助手</button><button class="btn btn-primary" onclick="primaryAction()">发布 / 提交</button></div>
+    </div>
+    <section id="content"></section>
+  </main>
+</div>
+<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const students=[
+  {id:'s1',name:'王浩然',school:'清华大学',dept:'软件学院',degree:'本科',avatar:'王',score:92,pow:3,skills:['React','Node.js','Python','PostgreSQL'],bio:'全栈开发，独立完成多个商业项目。',focus:'企业级 SaaS 与 AI Agent'},
+  {id:'s2',name:'张明远',school:'清华大学',dept:'计算机系',degree:'硕士',avatar:'张',score:96,pow:5,skills:['PyTorch','CUDA','Transformer','Rust'],bio:'ACM 金牌，顶会论文 2 篇。',focus:'大模型推理优化'},
+  {id:'s3',name:'李思琪',school:'北京大学',dept:'数学科学学院',degree:'博士',avatar:'李',score:89,pow:4,skills:['运筹优化','CPLEX','机器学习','Python'],bio:'SCI 一区论文，复杂系统优化方向。',focus:'产业优化与横向课题'},
+  {id:'s4',name:'陈以航',school:'浙江大学',dept:'控制学院',degree:'硕士',avatar:'陈',score:87,pow:2,skills:['机器人','ROS','C++','视觉算法'],bio:'智能硬件和机器人竞赛经历丰富。',focus:'智能制造'}
+];
+const enterprises=[
+  {id:'e1',name:'智源清科技术有限公司',industry:'AI 大模型',location:'北京海淀',avatar:'智',rnd:'860万/年'},
+  {id:'e2',name:'数盾安全科技',industry:'网络安全',location:'中关村',avatar:'数',rnd:'520万/年'},
+  {id:'e3',name:'基因未来生物科技',industry:'生物科技',location:'北京海淀',avatar:'基',rnd:'380万/年'}
+];
+const competitions=[
+  {id:'c1',title:'AI 大模型智能客服 Agent 开发赛',type:'企业命题',track:'AI 应用',org:'智源清科技术有限公司',deadline:'2026-08-15',prize:'¥10w 奖金池',duration:'8 周',registered:34,match:94,tags:['RAG','Agent','大模型微调'],desc:'基于真实客服对话数据，开发能自主调用工具、多轮对话不偏离的智能客服 Agent。'},
+  {id:'c2',title:'2026 夏季黑客马拉松 · 数字科创',type:'黑客松',track:'开放命题',org:'智创未来 × 中关村创新中心',deadline:'2026-07-20',prize:'¥3w + 云资源',duration:'48 小时',registered:87,match:88,tags:['快速原型','AI 应用','团队协作'],desc:'48 小时极限开发挑战，聚焦 AI 应用、数据可视化、智能硬件与 Web 产品。'},
+  {id:'c3',title:'数据安全漏洞挖掘挑战赛',type:'企业命题',track:'系统安全',org:'数盾安全科技',deadline:'2026-09-01',prize:'¥5w + SP offer',duration:'6 周',registered:41,match:76,tags:['CTF','安全攻防','漏洞报告'],desc:'在企业靶场环境中挖掘 Web 与 API 漏洞，提交漏洞报告和修复方案。'},
+  {id:'c4',title:'生物序列大模型预训练优化赛',type:'主题赛',track:'生物 AI',org:'基因未来 × 北大信科',deadline:'2026-10-01',prize:'¥8w 奖金池',duration:'10 周',registered:28,match:82,tags:['蛋白质序列','预训练','BioAI'],desc:'设计高效生物序列模型，在功能预测和结构预测任务上达到可复现实验结果。'}
+];
+const opportunities=[
+  {title:'NLP 算法实习生',org:'智源清科',pay:'300-500元/天',fit:93,tags:['Transformer','微调','转正机会']},
+  {title:'大模型推理加速外包',org:'智源清科',pay:'6-8万元',fit:91,tags:['PyTorch','CUDA','量化压缩']},
+  {title:'蛋白质结构预测横向课题',org:'基因未来',pay:'8-12万元',fit:78,tags:['AlphaFold','博士团队','联合发表']}
+];
+let role='student';
+let page='home';
+let registrations=['c1','c3'];
+let submissions={c1:{repo:'https://github.com/wanghaoran/agent-customer-service',demo:'https://agent-demo.vercel.app',desc:'支持多轮对话和工具调用，意图识别准确率 94%。',status:'平台认证',score:94}};
+let posted=['c1'];
+
+const navs={
+  student:[
+    ['home','⌘','智能首页'],['hall','赛','竞赛大厅'],['projects','项','我的项目'],['pow','证','Proof of Work'],['career','职','职业机会'],['profile','我','数字 Profile']
+  ],
+  enterprise:[
+    ['home','⌘','企业驾驶舱'],['post','发','发布命题'],['radar','雷','人才雷达'],['monitor','监','项目监理'],['matches','配','匹配结果'],['profile','企','企业资料']
+  ]
+};
+const titles={
+  student:{home:['智能首页','你的 C9 成长飞轮与机会推荐。'],hall:['竞赛大厅','企业出题，你来解题。'],projects:['我的项目','报名、提交、审核和认证进度。'],pow:['Proof of Work','可验证的工程战绩资产。'],career:['职业机会','基于 PoW 的实习、就业与外包推荐。'],profile:['数字 Profile','面向企业的能力证据页。']},
+  enterprise:{home:['企业驾驶舱','从命题到人才转化的全链路视图。'],post:['发布命题','由技术经理人辅助拆解企业技术需求。'],radar:['C9 人才雷达','按战绩、技能和匹配度筛选候选人。'],monitor:['项目监理','里程碑、验收标准和技术经理人状态。'],matches:['匹配结果','AI 推荐候选人与推荐理由。'],profile:['企业资料','企业需求、研发投入和合作状态。']}
+};
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
+function setRole(next){role=next;page='home';document.getElementById('studentRole').classList.toggle('active',role==='student');document.getElementById('enterpriseRole').classList.toggle('active',role==='enterprise');render();toast(role==='student'?'已切换学生视角':'已切换企业视角')}
+function go(p){page=p;render()}
+function render(){
+  renderNav();renderUser();
+  const [t,d]=titles[role][page];document.getElementById('pageTitle').textContent=t;document.getElementById('pageDesc').textContent=d;
+  const views={student:{home:studentHome,hall:hall,projects:projects,pow:pow,career:career,profile:studentProfile},enterprise:{home:enterpriseHome,post:post,radar:radar,monitor:monitor,matches:matches,profile:enterpriseProfile}};
+  document.getElementById('content').innerHTML=views[role][page]();
+  requestAnimationFrame(initOpportunityCanvases);
+}
+function renderNav(){
+  document.getElementById('nav').innerHTML=`<div class="nav-label">${role==='student'?'Student OS':'Enterprise OS'}</div>`+navs[role].map(([id,ic,label])=>`<button class="nav-item ${page===id?'active':''}" onclick="go('${id}')"><span class="nav-icon">${ic}</span><span>${label}</span></button>`).join('');
+}
+function renderUser(){
+  const u=role==='student'?students[0]:enterprises[0];
+  document.getElementById('avatar').textContent=u.avatar;document.getElementById('userName').textContent=u.name;document.getElementById('userMeta').textContent=role==='student'?`${u.school} · ${u.dept}`:`${u.industry} · ${u.location}`;
+}
+function studentHome(){
+  return `<div class="hero-console"><div class="glass command-center"><div class="command-content"><div class="eyebrow">Student Growth Flywheel</div><h2>从竞赛到 PoW，再到高价值机会。</h2><p>系统根据你的技能、提交记录和企业需求，推荐下一场竞赛、下一个项目和下一份高端机会。</p><div class="signal-board"><div class="signal"><b>92</b><span>PoW 指数</span></div><div class="signal"><b>${registrations.length}</b><span>参与竞赛</span></div><div class="signal"><b>${Object.keys(submissions).length}</b><span>认证战绩</span></div></div></div></div>${radarPanel('适合你的机会','AI 推荐正在扫描企业命题')}</div>${studentStats()}<div class="grid-2"><div>${recommendedComps()}</div><div>${careerList()}</div></div>`;
+}
+function enterpriseHome(){
+  const total=competitions.filter(c=>posted.includes(c.id)).reduce((s,c)=>s+c.registered,0);
+  return `<div class="hero-console"><div class="glass command-center"><div class="command-content"><div class="eyebrow">Enterprise Command Center</div><h2>用真实命题触达 C9 技术人才。</h2><p>发布竞赛、外包和横向课题后，平台会用 PoW 图谱筛选候选人，并由技术经理人监理交付质量。</p><div class="signal-board"><div class="signal"><b>${posted.length}</b><span>已发布命题</span></div><div class="signal"><b>${total}</b><span>触达学生</span></div><div class="signal"><b>5</b><span>可面试人才</span></div></div></div></div>${radarPanel('C9 人才雷达','高匹配候选人正在出现')}</div>${enterpriseStats()}<div class="grid-2"><div>${matchesList()}</div><div>${monitorList()}</div></div>`;
+}
+function radarPanel(title,sub){return `<div class="glass radar"><div class="radar-head"><div><h3>${title}</h3><small>${sub}</small></div><span class="tag green">Live</span></div><div class="radar-map"><canvas class="opportunity-canvas" data-role="${role}"></canvas><span class="scan-label">Opportunity field scan</span><span class="point-label">${role==='student'?'3 个高匹配机会':'5 位候选人才'}</span></div></div>`}
+function studentStats(){return `<div class="stats"><div class="stat"><span>成长阶段</span><b>赛中练</b><small>下一步：项目制外包</small></div><div class="stat"><span>推荐机会</span><b>3</b><small>实习 / 外包 / 课题</small></div><div class="stat"><span>企业关注</span><b>12</b><small>过去 7 天</small></div><div class="stat"><span>信用分</span><b>860</b><small>平台认证</small></div></div>`}
+function enterpriseStats(){return `<div class="stats"><div class="stat"><span>命题转化率</span><b>38%</b><small>报名到提交</small></div><div class="stat"><span>平均匹配度</span><b>91</b><small>Top 5 候选人</small></div><div class="stat"><span>预计周期</span><b>7天</b><small>从发布到初筛</small></div><div class="stat"><span>研发投入</span><b>860w</b><small>年度预算</small></div></div>`}
+function compCard(c){const registered=registrations.includes(c.id);return `<article class="card"><div class="card-head"><span class="tag ${c.type==='黑客松'?'violet':c.type==='主题赛'?'green':'gold'}">${c.type}</span><span class="tag">匹配 ${c.match}%</span></div><h3>${c.title}</h3><div class="meta">${c.org} · ${c.duration} · ${c.prize}<br/>截止：${c.deadline} · ${c.registered} 人报名</div><div class="chips">${c.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div><div class="progress"><span style="width:${c.match}%"></span></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-small btn-secondary" onclick="openComp('${c.id}')">查看详情</button><button class="btn btn-small ${registered?'btn-dark':'btn-primary'}" onclick="registerComp('${c.id}')">${registered?'已报名':'立即报名'}</button></div></article>`}
+function recommendedComps(){return `<section><div class="card-head"><h3>推荐竞赛</h3><button class="btn btn-small btn-secondary" onclick="go('hall')">全部</button></div><div class="grid-auto">${competitions.slice(0,2).map(compCard).join('')}</div></section>`}
+function hall(){return `<div class="filters"><button class="filter active" onclick="filterCards('all',this)">全部</button><button class="filter" onclick="filterCards('企业命题',this)">企业命题</button><button class="filter" onclick="filterCards('黑客松',this)">黑客松</button><button class="filter" onclick="filterCards('主题赛',this)">主题赛</button><input class="search" placeholder="搜索赛道、企业或技术标签" oninput="searchCards(this.value)"></div><div class="grid-auto" id="cardGrid">${competitions.map(c=>`<div data-type="${c.type}" data-text="${[c.title,c.org,c.track,...c.tags].join(' ')}">${compCard(c)}</div>`).join('')}</div>`}
+function projects(){const regs=competitions.filter(c=>registrations.includes(c.id));return `<div class="grid-auto">${regs.map(c=>`<article class="card"><div class="card-head"><span class="tag">${c.track}</span><span class="tag ${submissions[c.id]?'green':'gold'}">${submissions[c.id]?'已认证':'待提交'}</span></div><h3>${c.title}</h3><div class="meta">${c.org}<br/>${submissions[c.id]?submissions[c.id].desc:'提交代码仓库、Demo 和作品说明后进入技术经理人审核。'}</div><div style="margin-top:14px"><button class="btn btn-primary" onclick="openSubmit('${c.id}')">${submissions[c.id]?'更新作品':'提交作品'}</button></div></article>`).join('')}</div>`}
+function pow(){const ids=Object.keys(submissions);return ids.length?`<div class="grid-auto">${ids.map(id=>{const c=competitions.find(x=>x.id===id),s=submissions[id];return `<article class="pow-card"><div class="card-head"><span class="tag green">${s.status}</span><span class="tag">Score ${s.score}</span></div><h3>${c.title}</h3><div class="meta">${c.org}<br/>${s.desc}</div><div class="chips"><span class="chip">GitHub</span><span class="chip">Live Demo</span><span class="chip">技术经理人审核</span><span class="chip">企业命题</span></div><div class="grid-3" style="margin-top:16px"><div class="signal"><b>${s.score}%</b><span>完成度</span></div><div class="signal"><b>4</b><span>技术标签</span></div><div class="signal"><b>1</b><span>企业背书</span></div></div></article>`}).join('')}</div>`:`<div class="empty">还没有认证战绩。</div>`}
+function careerList(){return `<section><div class="card-head"><h3>机会推荐</h3><button class="btn btn-small btn-secondary" onclick="go('career')">查看</button></div><div class="grid-auto">${opportunities.slice(0,2).map(oppCard).join('')}</div></section>`}
+function career(){return `<div class="grid-auto">${opportunities.map(oppCard).join('')}</div>`}
+function oppCard(o){return `<article class="card"><div class="card-head"><span class="tag green">匹配 ${o.fit}%</span><span class="tag">${o.pay}</span></div><h3>${o.title}</h3><div class="meta">${o.org} · 基于你的 PoW 推荐</div><div class="chips">${o.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div><button class="btn btn-primary" onclick="toast('已发送意向，技术经理人将跟进')">申请机会</button></article>`}
+function studentProfile(){const s=students[0];return `<div class="grid-2"><article class="card"><div style="display:flex;gap:16px;align-items:center;margin-bottom:18px"><div class="avatar" style="width:66px;height:66px;font-size:24px">${s.avatar}</div><div><h3>${s.name}</h3><div class="meta">${s.school} · ${s.dept} · ${s.degree}</div></div></div><p class="meta">${s.bio} 专注：${s.focus}</p><div class="chips">${s.skills.map(x=>`<span class="chip">${x}</span>`).join('')}</div></article><article class="card"><h3>能力资产</h3><div class="stats" style="grid-template-columns:repeat(2,1fr);margin-top:14px"><div class="stat"><span>PoW 指数</span><b>${s.score}</b></div><div class="stat"><span>认证战绩</span><b>${s.pow}</b></div></div></article></div>`}
+function post(){return `<div class="grid-2"><article class="card"><h3>技术经理人命题向导</h3><p class="meta" style="margin:8px 0 18px">把企业模糊需求拆解成学生可执行、平台可验收的技术命题。</p><div class="form-grid"><div class="field"><label>业务问题</label><input id="postTitle" placeholder="例如：降低大模型客服响应成本"></div><div class="field"><label>技术目标</label><select id="postType"><option>企业命题</option><option>黑客松</option><option>横向课题</option><option>研发外包</option></select></div><div class="field"><label>交付物与验收标准</label><textarea id="postDesc" placeholder="需要可运行 Demo、代码仓库、评估报告、部署文档..."></textarea></div><div class="field"><label>预算 / 奖金</label><input id="postPrize" placeholder="¥5w 奖金池 / 6-8万元外包"></div><button class="btn btn-primary" onclick="createPost()">生成命题</button></div></article><article class="card"><h3>系统建议</h3><div class="timeline" style="margin-top:16px"><div class="milestone"><div class="m-dot">1</div><div><b>建议周期</b><span class="meta">企业命题 6-8 周，黑客松 48 小时，横向课题 3 个月。</span></div><span class="tag">Auto</span></div><div class="milestone"><div class="m-dot pending">2</div><div><b>推荐学生画像</b><span class="meta">硕士优先，具备 PyTorch、CUDA、Agent 或系统工程 PoW。</span></div><span class="tag gold">AI</span></div><div class="milestone"><div class="m-dot pending">3</div><div><b>验收方式</b><span class="meta">技术经理人审核代码、Demo、指标和文档后发放 PoW。</span></div><span class="tag green">TM</span></div></div></article></div>`}
+function radar(){return `<div class="filters"><button class="filter active">全部</button><button class="filter">清华</button><button class="filter">北大</button><button class="filter">硕博</button><input class="search" placeholder="搜索技能、学校、方向"></div><div class="grid-auto">${students.map(studentCard).join('')}</div>`}
+function studentCard(s){return `<article class="card"><div class="card-head"><span class="tag">匹配 ${s.score}%</span><span class="tag green">${s.pow} PoW</span></div><div style="display:flex;gap:12px;align-items:center;margin-bottom:12px"><div class="avatar">${s.avatar}</div><div><h3>${s.name}</h3><div class="meta">${s.school} · ${s.dept} · ${s.degree}</div></div></div><p class="meta">${s.bio}<br/>方向：${s.focus}</p><div class="chips">${s.skills.map(x=>`<span class="chip">${x}</span>`).join('')}</div><button class="btn btn-primary" onclick="toast('已发送联系请求给 ${s.name}')">联系候选人</button></article>`}
+function monitorList(){return `<section><div class="card-head"><h3>项目监理</h3><button class="btn btn-small btn-secondary" onclick="go('monitor')">详情</button></div>${monitor()}</section>`}
+function monitor(){return `<div class="timeline"><div class="milestone"><div class="m-dot">✓</div><div><b>需求规格确认</b><span class="meta">技术经理人已输出交付物、指标、验收标准。</span></div><span class="tag green">完成</span></div><div class="milestone"><div class="m-dot">2</div><div><b>候选人初筛</b><span class="meta">AI 推荐 5 位候选人，技术经理人建议面试 2 位。</span></div><span class="tag">进行中</span></div><div class="milestone"><div class="m-dot pending">3</div><div><b>里程碑验收</b><span class="meta">Demo、代码仓库、评估报告和部署文档逐项验收。</span></div><span class="tag gold">待开始</span></div></div>`}
+function matchesList(){return `<section><div class="card-head"><h3>AI 推荐候选人</h3><button class="btn btn-small btn-secondary" onclick="go('matches')">全部</button></div><div class="grid-auto">${students.slice(0,2).map(studentCard).join('')}</div></section>`}
+function matches(){return `<div class="grid-auto">${students.map(studentCard).join('')}</div>`}
+function enterpriseProfile(){const e=enterprises[0];return `<div class="grid-2"><article class="card"><div style="display:flex;gap:16px;align-items:center;margin-bottom:18px"><div class="avatar">${e.avatar}</div><div><h3>${e.name}</h3><div class="meta">${e.industry} · ${e.location}</div></div></div><div class="chips"><span class="chip">专精特新</span><span class="chip">AI 大模型</span><span class="chip">企业命题</span></div></article><article class="card"><h3>企业合作资产</h3><div class="stats" style="grid-template-columns:repeat(2,1fr);margin-top:14px"><div class="stat"><span>年度研发投入</span><b>${e.rnd}</b></div><div class="stat"><span>已发布命题</span><b>${posted.length}</b></div></div></article></div>`}
+function openComp(id){const c=competitions.find(x=>x.id===id);openModal(`<h2>${c.title}</h2><p>${c.desc}</p><div class="chips">${c.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div><div class="stats" style="grid-template-columns:repeat(2,1fr);margin:18px 0"><div class="stat"><span>奖金/预算</span><b>${c.prize}</b></div><div class="stat"><span>匹配度</span><b>${c.match}%</b></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">关闭</button><button class="btn btn-primary" onclick="registerComp('${id}')">报名</button></div>`)}
+function registerComp(id){if(!registrations.includes(id)){registrations.push(id);toast('报名成功，已加入我的项目')}else toast('你已报名该项目');closeModal();render()}
+function openSubmit(id){const c=competitions.find(x=>x.id===id);openModal(`<h2>提交作品 · ${c.title}</h2><p>提交后进入技术经理人审核，审核通过即生成 PoW 战绩。</p><div class="form-grid" style="margin-top:16px"><div class="field"><label>代码仓库</label><input id="repo" placeholder="https://github.com/your/repo"></div><div class="field"><label>Demo 链接</label><input id="demo" placeholder="https://your-demo.app"></div><div class="field"><label>作品说明</label><textarea id="desc" placeholder="核心方案、指标、创新点和交付状态"></textarea></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="submitWork('${id}')">提交审核</button></div>`)}
+function submitWork(id){const desc=document.getElementById('desc').value.trim()||'已提交完整代码、Demo 和技术说明，等待审核。';submissions[id]={repo:document.getElementById('repo').value,demo:document.getElementById('demo').value,desc,status:'审核中',score:88};toast('作品已提交，技术经理人开始审核');closeModal();render()}
+function createPost(){const title=document.getElementById('postTitle').value.trim()||'企业智能命题';const prize=document.getElementById('postPrize').value.trim()||'¥5w 奖金池';competitions.push({id:'c'+(competitions.length+1),title,type:document.getElementById('postType').value,track:'AI 应用',org:'智源清科技术有限公司',deadline:'2026-12-31',prize,duration:'8 周',registered:0,match:90,tags:['企业命题','技术经理人','PoW'],desc:document.getElementById('postDesc').value||'由技术经理人拆解后的企业技术命题。'});posted.push('c'+competitions.length);toast('命题已生成并发布');go('home')}
+function filterCards(type,btn){document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('#cardGrid>div').forEach(el=>{el.style.display=type==='all'||el.dataset.type===type?'':'none'})}
+function searchCards(q){const s=q.toLowerCase();document.querySelectorAll('#cardGrid>div').forEach(el=>{el.style.display=el.dataset.text.toLowerCase().includes(s)?'':'none'})}
+function openModal(html){document.getElementById('modal').innerHTML=html;document.getElementById('modalBackdrop').classList.add('open')}
+function closeModal(){document.getElementById('modalBackdrop').classList.remove('open')}
+function openAssistant(){openModal('<h2>技术经理人助手</h2><p>我会把企业需求拆成技术目标、交付物、验收标准和推荐学生画像；也会把学生作品审核为可验证的 Proof of Work。</p><div class="timeline" style="margin-top:18px"><div class="milestone"><div class="m-dot">1</div><div><b>需求翻译</b><span class="meta">业务问题转技术规格。</span></div><span class="tag">TM</span></div><div class="milestone"><div class="m-dot">2</div><div><b>过程监理</b><span class="meta">里程碑、代码质量、风险控制。</span></div><span class="tag green">Live</span></div></div><div class="modal-actions"><button class="btn btn-primary" onclick="closeModal()">知道了</button></div>')}
+function primaryAction(){role==='student'?go('hall'):go('post')}
+function initOpportunityCanvases(){
+  document.querySelectorAll('.opportunity-canvas').forEach((canvas,index)=>{
+    if(canvas.dataset.ready==='1') return;
+    canvas.dataset.ready='1';
+    const ctx=canvas.getContext('2d');
+    let w=0,h=0,dpr=1,particles=[],nodes=[];
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nodeSeed=canvas.dataset.role==='student'
+      ? [{x:.24,y:.34,label:'实习',fit:93,c:'#0071e3'},{x:.66,y:.25,label:'外包',fit:91,c:'#28a745'},{x:.76,y:.66,label:'课题',fit:78,c:'#b7791f'}]
+      : [{x:.24,y:.34,label:'清华',fit:96,c:'#0071e3'},{x:.62,y:.24,label:'北大',fit:91,c:'#7c3aed'},{x:.76,y:.62,label:'浙大',fit:87,c:'#28a745'},{x:.42,y:.72,label:'复旦',fit:82,c:'#b7791f'}];
+    function resize(){
+      const rect=canvas.getBoundingClientRect();
+      dpr=Math.min(window.devicePixelRatio||1,2);
+      w=rect.width;h=rect.height;
+      canvas.width=Math.floor(w*dpr);canvas.height=Math.floor(h*dpr);
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      particles=Array.from({length:95},(_,i)=>({
+        x:Math.random()*w,y:Math.random()*h,
+        r:.55+Math.random()*1.45,
+        phase:Math.random()*Math.PI*2,
+        speed:.12+Math.random()*.28,
+        alpha:.12+Math.random()*.25
+      }));
+      nodes=nodeSeed.map(n=>({...n,px:n.x*w,py:n.y*h,phase:Math.random()*Math.PI*2}));
+    }
+    function line(a,b,alpha){
+      const g=ctx.createLinearGradient(a.px,a.py,b.px,b.py);
+      g.addColorStop(0,`rgba(0,113,227,${alpha})`);
+      g.addColorStop(.5,`rgba(70,184,255,${alpha*.8})`);
+      g.addColorStop(1,`rgba(40,167,69,${alpha*.65})`);
+      ctx.strokeStyle=g;ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(a.px,a.py);ctx.lineTo(b.px,b.py);ctx.stroke();
+    }
+    function draw(t){
+      ctx.clearRect(0,0,w,h);
+      const time=t*.001;
+      const bg=ctx.createRadialGradient(w*.5,h*.48,8,w*.5,h*.48,Math.max(w,h)*.6);
+      bg.addColorStop(0,'rgba(0,113,227,.12)');
+      bg.addColorStop(.48,'rgba(98,216,255,.055)');
+      bg.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+
+      particles.forEach(p=>{
+        const x=p.x+(reduced?0:Math.cos(time*p.speed+p.phase)*6);
+        const y=p.y+(reduced?0:Math.sin(time*p.speed+p.phase)*4);
+        ctx.fillStyle=`rgba(0,113,227,${p.alpha})`;
+        ctx.beginPath();ctx.arc(x,y,p.r,0,Math.PI*2);ctx.fill();
+      });
+
+      ctx.save();
+      ctx.globalCompositeOperation='screen';
+      const scanX=reduced?w*.54:((time*.16)%1.35-.18)*w;
+      const scan=ctx.createLinearGradient(scanX-90,0,scanX+130,0);
+      scan.addColorStop(0,'rgba(70,184,255,0)');
+      scan.addColorStop(.45,'rgba(70,184,255,.16)');
+      scan.addColorStop(.52,'rgba(255,255,255,.24)');
+      scan.addColorStop(1,'rgba(70,184,255,0)');
+      ctx.fillStyle=scan;
+      ctx.beginPath();
+      ctx.moveTo(scanX-120,0);ctx.lineTo(scanX+90,0);ctx.lineTo(scanX+150,h);ctx.lineTo(scanX-60,h);
+      ctx.closePath();ctx.fill();
+
+      for(let i=0;i<nodes.length;i++){
+        for(let j=i+1;j<nodes.length;j++){
+          const d=Math.hypot(nodes[i].px-nodes[j].px,nodes[i].py-nodes[j].py);
+          if(d<w*.62) line(nodes[i],nodes[j],.13);
+        }
+      }
+      nodes.forEach(n=>{
+        const pulse=reduced?.5:(Math.sin(time*2.4+n.phase)+1)/2;
+        const near=Math.max(0,1-Math.abs(scanX-n.px)/150);
+        const glow=.45+pulse*.45+near*.8;
+        ctx.shadowBlur=22+near*30;
+        ctx.shadowColor=n.c;
+        ctx.fillStyle=n.c;
+        ctx.beginPath();ctx.arc(n.px,n.py,5.4+glow*2.2,0,Math.PI*2);ctx.fill();
+        ctx.shadowBlur=0;
+        ctx.strokeStyle=`rgba(255,255,255,${.55+near*.35})`;
+        ctx.lineWidth=1.2;
+        ctx.beginPath();ctx.arc(n.px,n.py,14+glow*8,0,Math.PI*2);ctx.stroke();
+        ctx.fillStyle='rgba(16,20,29,.82)';
+        ctx.beginPath();ctx.roundRect(n.px+12,n.py-22,70,25,12);ctx.fill();
+        ctx.fillStyle='#fff';ctx.font='700 12px -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif';
+        ctx.fillText(`${n.label} ${n.fit}%`,n.px+23,n.py-6);
+      });
+      ctx.restore();
+      requestAnimationFrame(draw);
+    }
+    resize();
+    window.addEventListener('resize',resize);
+    requestAnimationFrame(draw);
+  });
+}
+render();
+</script>
+</body>
+</html>
